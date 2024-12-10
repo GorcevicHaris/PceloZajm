@@ -9,7 +9,8 @@ import { useContext, useEffect } from "react";
 import Profile from "./Pages/Home/Profile";
 import HomePage from "./Pages/HomePage/HomePage";
 import axios from "axios";
-import Hives from "./Hive/Hives";
+import HiveForm from "./Hive/HiveForm";
+import Hives from "./Hives/Hives";
 function App() {
   return (
     <BrowserRouter>
@@ -43,11 +44,8 @@ function AppWithContext() {
         <Route path="/" element={<Register />} />
         <Route path="/dashboard" element={<HomePage />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/tables" element={<HomePage />} />
-        <Route path="/hiveAdmin" element={<Hives />} />
-        <Route path="/icons" element={<HomePage />} />
-        <Route path="/maps" element={<HomePage />} />
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/hiveAdmin" element={<HiveForm />} />
+        <Route path="/hivesEditDelete" element={<Hives />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </div>

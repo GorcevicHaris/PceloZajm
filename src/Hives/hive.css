@@ -1,0 +1,165 @@
+.hives-container {
+    min-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .hives-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .hives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .hive-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .hive-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .hive-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .hive-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .hive-description,
+  .hive-location,
+  .hive-status {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .hive-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .hive-edit-button,
+  .hive-delete-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .hive-edit-button {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .hive-delete-button {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .hive-edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .hive-delete-button:hover {
+    background-color: #b02a37;
+  }
+  
+  .hive-edit-button:active,
+  .hive-delete-button:active {
+    transform: translateY(2px);
+  }
+  .popup {
+    min-height: 400px;
+    min-width: 400px;
+    background-color: #007bff;
+    position: fixed;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .popup label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white; 
+  }
+  
+  .popup input,
+  .popup select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .hive-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .hive-actions {
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hives-container {
+      padding: 15px;
+    }
+  
+    .hive-name {
+      font-size: 16px;
+    }
+  
+    .hive-description,
+    .hive-location,
+    .hive-status {
+      font-size: 12px;
+    }
+  
+    .hive-edit-button,
+    .hive-delete-button {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  }
+  

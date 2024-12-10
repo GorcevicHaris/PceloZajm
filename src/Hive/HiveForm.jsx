@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./hives.css";
 import axios from "axios";
 
-const Hives = () => {
+function HiveForm() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -19,7 +19,7 @@ const Hives = () => {
       });
     }
     getData();
-  }, [hiveItems]);
+  }, []);
   //
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -91,27 +91,8 @@ const Hives = () => {
           Spremi Košnicu
         </button>
       </form>
-
-      {/* Vizuelna reprezentacija košnica sa opcijama za editovanje i brisanje */}
-      <div className="hives-list">
-        {hiveItems &&
-          hiveItems.map((data) => {
-            return (
-              <div className="hive-item" key={data.id}>
-                <p>{data.name}</p>
-                <p>{data.description}</p>
-                <p>{data.status}</p>
-                <p>{data.location}</p>
-                <div className="hive-actions">
-                  <button className="edit-button">Edituj</button>
-                  <button className="delete-button">Obriši</button>
-                </div>
-              </div>
-            );
-          })}
-      </div>
     </div>
   );
-};
+}
 
-export default Hives;
+export default HiveForm;

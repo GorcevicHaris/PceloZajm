@@ -11,14 +11,14 @@ import PersonIcon from "@mui/icons-material/Person";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import TypographyIcon from "@mui/icons-material/TextFields";
 import MapIcon from "@mui/icons-material/Map";
-import { Link, Links } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const menuItems = [
     { text: "Dashboard", icon: <DashboardIcon />, Link: "/dashboard" },
     { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
     { text: "Table List", icon: <TableChartIcon />, Link: "/hiveAdmin" },
-    { text: "Typography", icon: <TypographyIcon /> },
+    { text: "Typography", icon: <TypographyIcon />, Link: "/hivesEditDelete" },
     { text: "Maps", icon: <MapIcon /> },
   ];
 

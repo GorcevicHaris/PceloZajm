@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { use, useEffect, useState } from "react";
 import "./hive.css";
-import { data } from "react-router-dom";
 
 function Hives() {
   const [hiveItems, setHiveItems] = useState([]);
@@ -16,19 +15,32 @@ function Hives() {
     }
     getData();
   }, []);
+  axios.defaults.withCredentials = true;
   console.log(selectedHive);
 
   function editBtn(data) {
     setSelectedHive(data);
     setEditPopUp(true);
   }
-  function changeInput(e) {
-    setSelectedHive({ ...selectedHive, [e.target.name]: e.traget.value });
-  }
+  function editButton() {
+    if (!selectedHive) return;
 
+    axios
+      .put("http://localhost:4005/api/edit", selectedHive)
+      .then((res) => {
+        console.log(res.data, "lets see");
+        setHiveItems((prev) =>
+          prev.map((data) => (data.id == selectedHive.id ? selectedHive : data))
+        );
+        setEditPopUp(false);
+      })
+      .catch((err) => {
+        console.log("Error updating hive:", err);
+      });
+  }
   return (
     <div className="hives-container">
-      {editPopUp && (
+      {editPopUp && selectedHive && (
         <div className="popup">
           <label style={{ textAlign: "left" }}>Name</label>
           <input
@@ -61,7 +73,7 @@ function Hives() {
           </select>
           <div className="btnEdCl">
             <button onClick={() => setEditPopUp(false)}>Close</button>
-            <button onClick={() => setEditPopUp(false)}>Edit</button>
+            <button onClick={editButton}>Edit</button>
           </div>
         </div>
       )}

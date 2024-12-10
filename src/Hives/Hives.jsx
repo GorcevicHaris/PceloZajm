@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { use, useEffect, useState } from "react";
 import "./hive.css";
+import { data } from "react-router-dom";
 
 function Hives() {
   const [hiveItems, setHiveItems] = useState([]);
@@ -38,6 +39,15 @@ function Hives() {
         console.log("Error updating hive:", err);
       });
   }
+
+  function deleteHive(hiveID) {
+    axios
+      .delete("http://localhost:4005/api/deleteHive", { data: { id: hiveID } })
+      .then((res) => {
+        setHiveItems((prev) => prev.filter((data) => data.id !== hiveID));
+      })
+      .catch((err) => console.log(err, "greska"));
+  }
   return (
     <div className="hives-container">
       {editPopUp && selectedHive && (
@@ -64,7 +74,13 @@ function Hives() {
             value={selectedHive.location}
           ></input>
           <label>Status</label>
-          <select value={selectedHive.status} style={{ width: "100%" }}>
+          <select
+            onChange={(e) =>
+              setSelectedHive({ ...selectedHive, status: e.target.value })
+            }
+            value={selectedHive.status}
+            style={{ width: "100%" }}
+          >
             {[...new Set(hiveItems.map((data) => data.status))].map(
               (status) => (
                 <option value={status}>{status}</option>
@@ -72,8 +88,12 @@ function Hives() {
             )}
           </select>
           <div className="btnEdCl">
-            <button onClick={() => setEditPopUp(false)}>Close</button>
-            <button onClick={editButton}>Edit</button>
+            <button className="btn-primary" onClick={() => setEditPopUp(false)}>
+              Close
+            </button>
+            <button className="btn-primary" onClick={editButton}>
+              Update
+            </button>
           </div>
         </div>
       )}
@@ -92,12 +112,19 @@ function Hives() {
                 </div>
                 <div className="hive-actions">
                   <button
+                    style={{ backgroundColor: "#0056b3" }}
                     onClick={() => editBtn(data)}
                     className="hive-edit-button"
                   >
                     Edit
                   </button>
-                  <button className="hive-delete-button">Delete</button>
+                  <button
+                    style={{ backgroundColor: "#0056b3" }}
+                    onClick={() => deleteHive(data.id)}
+                    className="hive-delete-button"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             );

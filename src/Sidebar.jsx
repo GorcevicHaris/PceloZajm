@@ -17,8 +17,8 @@ const Sidebar = () => {
   const menuItems = [
     { text: "Dashboard", icon: <DashboardIcon />, Link: "/dashboard" },
     { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
-    { text: "Table List", icon: <TableChartIcon />, Link: "/hiveAdmin" },
-    { text: "Typography", icon: <TypographyIcon />, Link: "/hivesEditDelete" },
+    { text: "Admin", icon: <TableChartIcon />, Link: "/hiveAdmin" },
+    { text: "Hives", icon: <TypographyIcon />, Link: "/hivesEditDelete" },
     { text: "Maps", icon: <MapIcon /> },
   ];
 

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./hives.css";
 import axios from "axios";
+import { Alert, Button } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import Swal from "sweetalert2";
+import "react-toastify/dist/ReactToastify.css";
 
 function HiveForm() {
   const [formData, setFormData] = useState({
@@ -26,9 +30,27 @@ function HiveForm() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:4005/api/addHive", formData).then((res) => {
-      console.log(res);
-    });
+
+    axios
+      .post("http://localhost:4005/api/addHive", formData)
+      .then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "Košnica uspešno dodata!",
+          background: "#D4EDDA",
+          width: "400px",
+          confirmButtonColor: "#28a745",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Već postoji košnica sa tim imenom",
+          background: "#F8D7DA",
+          width: "400px",
+          confirmButtonColor: "#dc3545",
+        });
+      });
   };
 
   return (

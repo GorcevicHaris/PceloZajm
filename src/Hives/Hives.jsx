@@ -17,9 +17,13 @@ function Hives() {
     getData();
   }, []);
   console.log(selectedHive);
+
   function editBtn(data) {
     setSelectedHive(data);
     setEditPopUp(true);
+  }
+  function changeInput(e) {
+    setSelectedHive({ ...selectedHive, [e.target.name]: e.traget.value });
   }
 
   return (
@@ -27,11 +31,26 @@ function Hives() {
       {editPopUp && (
         <div className="popup">
           <label style={{ textAlign: "left" }}>Name</label>
-          <input value={selectedHive.name}></input>
+          <input
+            onChange={(e) =>
+              setSelectedHive({ ...selectedHive, name: e.target.value })
+            }
+            value={selectedHive.name}
+          ></input>
           <label>Description</label>
-          <input value={selectedHive.description}></input>
+          <input
+            onChange={(e) =>
+              setSelectedHive({ ...selectedHive, description: e.target.value })
+            }
+            value={selectedHive.description}
+          ></input>
           <label>Location</label>
-          <input value={selectedHive.location}></input>
+          <input
+            onChange={(e) =>
+              setSelectedHive({ ...selectedHive, location: e.target.value })
+            }
+            value={selectedHive.location}
+          ></input>
           <label>Status</label>
           <select value={selectedHive.status} style={{ width: "100%" }}>
             {[...new Set(hiveItems.map((data) => data.status))].map(
@@ -40,7 +59,10 @@ function Hives() {
               )
             )}
           </select>
-          <button onClick={() => setEditPopUp(false)}>Close</button>
+          <div className="btnEdCl">
+            <button onClick={() => setEditPopUp(false)}>Close</button>
+            <button onClick={() => setEditPopUp(false)}>Edit</button>
+          </div>
         </div>
       )}
 

@@ -126,7 +126,11 @@
     border-radius: 5px;
     box-sizing: border-box;
   }
-  
+  .btnEdCl{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   
   @media (max-width: 768px) {
     .hive-card {

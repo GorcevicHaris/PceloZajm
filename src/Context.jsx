@@ -6,7 +6,7 @@ function ContextProvider({ children }) {
   const [userId, setUserId] = useState();
   const [islogged, setIsLogged] = useState(false);
   const [role, setRole] = useState(null);
-
+  const [hiveID, setHiveId] = useState();
   return (
     <Context.Provider
       value={{
@@ -16,6 +16,8 @@ function ContextProvider({ children }) {
         setIsLogged,
         role,
         setRole,
+        hiveID,
+        setHiveId,
       }}
     >
       {children}

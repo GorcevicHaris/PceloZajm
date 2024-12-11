@@ -9,7 +9,7 @@ function Hives() {
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedHive, setSelectedHive] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const { role, setRole } = useContext(Context);
+  const { role, setRole, hiveId, setHiveId } = useContext(Context);
   const navigate = useNavigate();
 
   const filteredHives = hiveItems.filter((item) =>
@@ -21,6 +21,8 @@ function Hives() {
       axios.get("http://localhost:4005/api/Hives").then((res) => {
         console.log(res.data, "pokusaj");
         setHiveItems(res.data);
+        console.log(res.data[0].id, "hiveid");
+        setHiveId(res.data[0].id);
       });
     }
     getData();

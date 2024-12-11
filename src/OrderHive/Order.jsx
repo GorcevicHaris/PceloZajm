@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./orderhives.css";
+import { Context } from "../Context";
 
 const OrderForm = () => {
   const [formData, setFormData] = useState({
-    hive_quantity: "",
+    quantityHive: "",
     start_date: "",
     end_date: "",
-    total_price: "",
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [availableHives, setAvailableHives] = useState();
+  const { userId, setUserID } = useContext(Context);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -31,6 +32,16 @@ const OrderForm = () => {
     }
     getAvailableHives();
   }, []);
+
+  function orderHive() {
+    const data = { ...formData, user_id: userId };
+    axios
+      .post("http://localhost:4005/api/orderHives", data)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err, "error"));
+  }
+
+  console.log(userId, "lalalallalalal");
   console.log(formData);
   return (
     <div>
@@ -42,8 +53,8 @@ const OrderForm = () => {
           <label>Quantity of Hives:</label>
           <input
             type="number"
-            name="hive_quantity"
-            value={formData.hive_quantity}
+            name="quantityHive"
+            value={formData.quantityHive}
             onChange={handleChange}
             required
           />
@@ -67,7 +78,9 @@ const OrderForm = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Submit Order</button>
+        <button onClick={orderHive} type="submit">
+          Submit Order
+        </button>
       </form>
     </div>
   );

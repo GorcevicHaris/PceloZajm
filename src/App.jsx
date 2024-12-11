@@ -13,6 +13,7 @@ import HiveForm from "./Hive/HiveForm";
 import Hives from "./Hives/Hives";
 import UserForm from "./Users/UserForm";
 import Users from "./UsersED/Users";
+import OrderHives from "./OrderHive/Order";
 function App() {
   return (
     <BrowserRouter>
@@ -51,6 +52,7 @@ function AppWithContext() {
         <Route path="/userForm" element={<UserForm />} />
         <Route path="/users" element={<Users />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/orderHive" element={<OrderHives />} />
       </Routes>
     </div>
   );

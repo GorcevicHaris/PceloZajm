@@ -21,11 +21,7 @@ const Sidebar = () => {
     { text: "Dashboard", icon: <DashboardIcon />, Link: "/dashboard" },
     { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
     role === "admin"
-      ? {
-          text: "Admin",
-          icon: <TableChartIcon />,
-          Link: "/hiveAdmin",
-        }
+      ? { text: "Admin", icon: <TableChartIcon />, Link: "/hiveAdmin" }
       : null,
     role === "admin"
       ? { text: "Hives", icon: <TypographyIcon />, Link: "/hivesEditDelete" }
@@ -36,7 +32,7 @@ const Sidebar = () => {
     role === "admin"
       ? { text: "Users", icon: <PersonIcon />, Link: "/users" }
       : null,
-    { text: "Maps", icon: <MapIcon />, Link: "/maps" },
+    { text: "OrderHive", icon: <MapIcon />, Link: "/orderHive" },
   ].filter(Boolean); // Uklanja sve `false`, `null` ili `undefined` vrednosti
 
   return (

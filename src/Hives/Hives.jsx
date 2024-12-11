@@ -9,6 +9,7 @@ function Hives() {
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedHive, setSelectedHive] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [availableHives, setAvailableHives] = useState([]);
   const { role, setRole, hiveId, setHiveId } = useContext(Context);
   const navigate = useNavigate();
 

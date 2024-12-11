@@ -13,11 +13,16 @@ import TypographyIcon from "@mui/icons-material/TextFields";
 import MapIcon from "@mui/icons-material/Map";
 import { Link } from "react-router-dom";
 import { Context } from "./Context";
-
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 const Sidebar = () => {
   const { role, setRole } = useContext(Context);
   console.log(role, "role");
   const menuItems = [
+    {
+      text: "ManageOrder",
+      icon: <AdminPanelSettingsIcon />,
+      Link: "/manageOrder",
+    },
     { text: "Dashboard", icon: <DashboardIcon />, Link: "/dashboard" },
     { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
     role === "admin"

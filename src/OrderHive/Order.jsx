@@ -11,7 +11,7 @@ const OrderForm = () => {
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [availableHives, setAvailableHives] = useState();
+  const [availableHives, setAvailableHives] = useState([]);
   const { userId, setUserID } = useContext(Context);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,19 +26,24 @@ const OrderForm = () => {
 
   useEffect(() => {
     function getAvailableHives() {
-      axios
-        .get("http://localhost:4005/api/totalAvailableHives")
-        .then((res) => console.log(res.data, "available kosnice"));
+      axios.get("http://localhost:4005/api/totalAvailableHives").then((res) => {
+        setAvailableHives(res.data);
+        console.log(res.data, "available kosnice");
+      });
     }
     getAvailableHives();
   }, []);
 
   function orderHive() {
     const data = { ...formData, user_id: userId };
-    axios
-      .post("http://localhost:4005/api/orderHives", data)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err, "error"));
+    if (formData.quantityHive < availableHives.length) {
+      axios
+        .post("http://localhost:4005/api/orderHives", data)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err, "error"));
+    } else {
+      alert("ne mozes poruciti nema dovoljno available");
+    }
   }
 
   console.log(userId, "lalalallalalal");

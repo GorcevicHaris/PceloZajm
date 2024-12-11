@@ -1,0 +1,67 @@
+/* AdminOrders.css */
+
+/* General table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  td {
+    background-color: #f9f9f9;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Table title */
+  h1 {
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    table {
+      font-size: 14px;
+    }
+  
+    th, td {
+      padding: 10px;
+    }
+  
+    /* Make the table scrollable on small screens */
+    .table-container {
+      overflow-x: auto;
+    }
+  
+    /* Adjust button width for smaller screens */
+    button {
+      width: 100%;
+      padding: 10px 0;
+    }
+  }
+  

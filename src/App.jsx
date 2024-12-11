@@ -14,6 +14,7 @@ import Hives from "./Hives/Hives";
 import UserForm from "./Users/UserForm";
 import Users from "./UsersED/Users";
 import OrderHives from "./OrderHive/Order";
+import ManageOrder from "./Admin/ManageOrder";
 function App() {
   return (
     <BrowserRouter>
@@ -44,6 +45,7 @@ function AppWithContext() {
     <div style={{ display: "flex" }}>
       {islogged ? <Sidebar /> : null}
       <Routes>
+        <Route path="/manageOrder" element={<ManageOrder />} />
         <Route path="/" element={<Register />} />
         <Route path="/dashboard" element={<HomePage />} />
         <Route path="/profile" element={<Profile />} />

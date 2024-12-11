@@ -5,6 +5,7 @@ function ContextProvider({ children }) {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState();
   const [islogged, setIsLogged] = useState(false);
+  const [role, setRole] = useState(null);
 
   return (
     <Context.Provider
@@ -13,6 +14,8 @@ function ContextProvider({ children }) {
         setUserId,
         islogged,
         setIsLogged,
+        role,
+        setRole,
       }}
     >
       {children}

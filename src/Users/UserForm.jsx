@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./userForm.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Context } from "../Context";
+import { useNavigate } from "react-router-dom";
 
 function UserForm() {
   const [formData, setFormData] = useState({
@@ -9,13 +11,20 @@ function UserForm() {
     email: "",
     password: "",
     phone_number: "",
-    role: "", // Podrazumevana vrednost za role
   });
-
+  const { role, setRole } = useContext(Context);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  useEffect(() => {
+    if (role !== "admin") {
+      navigate("/profile");
+    }
+  }, []);
+  if (role !== "admin") {
+    return null;
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -35,7 +44,6 @@ function UserForm() {
           email: "",
           password: "",
           phone_number: "",
-          role: "user", // Reset na podrazumevanu vrednost
         });
       })
       .catch((err) => {
@@ -104,21 +112,6 @@ function UserForm() {
             required
           />
         </div>
-
-        <div className="form-group">
-          <label htmlFor="role">Uloga korisnika</label>
-          <select
-            name="role"
-            id="role"
-            value={formData.role}
-            onChange={handleChange}
-            required
-          >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
         <button type="submit" className="submit-button">
           Spremi korisnika
         </button>

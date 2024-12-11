@@ -8,7 +8,7 @@ function HomePage() {
 
   const [userName, setUserName] = useState();
   const navigate = useNavigate();
-
+  const { role, setRole } = useContext(Context);
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
@@ -20,6 +20,7 @@ function HomePage() {
             setUserId(response.data.data[0].id);
             setUserName(response.data.data[0].name);
             console.log(response.data.data[0], "odgovor");
+            setRole(response.data.data[0].role, "probaa");
           } else {
             console.log("failed");
           }

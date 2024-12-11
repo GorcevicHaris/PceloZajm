@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./hives.css";
 import axios from "axios";
 import { Alert, Button } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
+import { Context } from "../Context";
+import { useNavigate } from "react-router-dom";
 
 function HiveForm() {
   const [formData, setFormData] = useState({
@@ -13,7 +15,9 @@ function HiveForm() {
     location: "",
     status: "",
   });
+  const navigate = useNavigate();
   const [hiveItems, setHiveItems] = useState([]);
+  const { role, setRole } = useContext(Context);
 
   useEffect(() => {
     function getData() {
@@ -24,7 +28,16 @@ function HiveForm() {
     }
     getData();
   }, []);
-  //
+
+  console.log(role, "ovo je role");
+  useEffect(() => {
+    if (role !== "admin") {
+      navigate("/profile");
+    }
+  }, []);
+  if (role !== "admin") {
+    return null;
+  }
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

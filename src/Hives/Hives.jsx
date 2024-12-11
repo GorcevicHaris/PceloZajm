@@ -1,13 +1,16 @@
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import "./hive.css";
-import { data } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
+import { Context } from "../Context";
 //includes za nizove samo a some sa niz objekata
 function Hives() {
   const [hiveItems, setHiveItems] = useState([]);
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedHive, setSelectedHive] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const { role, setRole } = useContext(Context);
+  const navigate = useNavigate();
 
   const filteredHives = hiveItems.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -22,6 +25,16 @@ function Hives() {
     }
     getData();
   }, []);
+
+  useEffect(() => {
+    if (role !== "admin") {
+      navigate("/profile");
+    }
+  }, []);
+  if (role !== "admin") {
+    return null;
+  }
+
   axios.defaults.withCredentials = true;
   console.log(selectedHive);
 

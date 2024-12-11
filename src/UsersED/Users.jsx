@@ -1,17 +1,19 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./usersed.css"; // CSS fajl za korisnički obrazac
+import { Navigate, useNavigate } from "react-router-dom";
+import { Context } from "../Context";
 
 function Users() {
   const [userItems, setUserItems] = useState([]);
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const { role, setRole } = useContext(Context);
   const filteredUsers = userItems.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  const navigate = useNavigate();
   useEffect(() => {
     function getData() {
       axios.get("http://localhost:4005/api/Users").then((res) => {
@@ -21,6 +23,17 @@ function Users() {
     }
     getData();
   }, []);
+  console.log(role, "roleusers");
+  useEffect(() => {
+    if (role !== "admin") {
+      navigate("/profile");
+    }
+  }, []);
+
+  if (role !== "admin") {
+    return null;
+  }
+
   axios.defaults.withCredentials = true;
 
   function editBtn(data) {

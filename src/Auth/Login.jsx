@@ -18,14 +18,14 @@ function Login() {
       .post("http://localhost:4005/api/login", values)
       .then((res) => {
         setIsLogged(true);
-        return navigate("/home");
+        return navigate("/profile");
       })
       .catch((err) => console.log(err));
   }
   let auth = document.cookie;
   useEffect(() => {
     if (auth) {
-      navigate("/home");
+      navigate("/profile");
     }
   }, []);
   console.log(values);

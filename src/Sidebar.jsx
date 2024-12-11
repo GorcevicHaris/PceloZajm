@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   Drawer,
   List,
@@ -12,17 +12,26 @@ import TableChartIcon from "@mui/icons-material/TableChart";
 import TypographyIcon from "@mui/icons-material/TextFields";
 import MapIcon from "@mui/icons-material/Map";
 import { Link } from "react-router-dom";
+import { Context } from "./Context";
 
 const Sidebar = () => {
+  const { role, setRole } = useContext(Context);
+  console.log(role, "role");
   const menuItems = [
     { text: "Dashboard", icon: <DashboardIcon />, Link: "/dashboard" },
     { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
-    { text: "Admin", icon: <TableChartIcon />, Link: "/hiveAdmin" },
+    role === "admin"
+      ? {
+          text: "Admin",
+          icon: <TableChartIcon />,
+          Link: "/hiveAdmin",
+        }
+      : null,
     { text: "Hives", icon: <TypographyIcon />, Link: "/hivesEditDelete" },
     { text: "InsertUser", icon: <TypographyIcon />, Link: "/userForm" },
     { text: "Users", icon: <PersonIcon />, Link: "/users" },
-    { text: "Maps", icon: <MapIcon /> },
-  ];
+    { text: "Maps", icon: <MapIcon />, Link: "/maps" },
+  ].filter(Boolean); // Uklanja sve `false`, `null` ili `undefined` vrednosti
 
   return (
     <Drawer

@@ -36,7 +36,7 @@ const OrderForm = () => {
 
   function orderHive() {
     const data = { ...formData, user_id: userId };
-    if (formData.quantityHive < availableHives.length) {
+    if (formData.quantityHive <= availableHives.length) {
       axios
         .post("http://localhost:4005/api/orderHives", data)
         .then((res) => console.log(res))

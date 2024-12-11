@@ -20,7 +20,7 @@ const AdminOrders = () => {
   const filteredPendingOrders = pendingOrders.filter(
     (data) => data.status == "pending"
   );
-  const approveOrder = (orderId, quantityHive) => {
+  function approveOrder(orderId, quantityHive) {
     axios
       .put("http://localhost:4005/api/approveOrder", {
         orderId: orderId,
@@ -31,6 +31,8 @@ const AdminOrders = () => {
         setPendingOrders((prevOrders) =>
           prevOrders.filter((order) => order.id !== orderId)
         );
+        // Ovo poređenje proverava da li je ID trenutne narudžbine (order.id)
+        //  različit od ID-ja narudžbine koja je upravo odobrena (orderId).
       })
       .catch((err) => {
         console.log("Error approving order:", err);
@@ -40,7 +42,7 @@ const AdminOrders = () => {
           } left`
         );
       });
-  };
+  }
 
   useEffect(() => {
     function getAvailableHives() {
@@ -60,7 +62,7 @@ const AdminOrders = () => {
           <thead>
             <tr>
               <th>Order ID</th>
-              <th>Name</th> {/* Added User Name column */}
+              <th>Name</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>Quantity</th>

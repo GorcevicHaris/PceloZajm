@@ -27,9 +27,15 @@ const Sidebar = () => {
           Link: "/hiveAdmin",
         }
       : null,
-    { text: "Hives", icon: <TypographyIcon />, Link: "/hivesEditDelete" },
-    { text: "InsertUser", icon: <TypographyIcon />, Link: "/userForm" },
-    { text: "Users", icon: <PersonIcon />, Link: "/users" },
+    role === "admin"
+      ? { text: "Hives", icon: <TypographyIcon />, Link: "/hivesEditDelete" }
+      : null,
+    role === "admin"
+      ? { text: "InsertUser", icon: <TypographyIcon />, Link: "/userForm" }
+      : null,
+    role === "admin"
+      ? { text: "Users", icon: <PersonIcon />, Link: "/users" }
+      : null,
     { text: "Maps", icon: <MapIcon />, Link: "/maps" },
   ].filter(Boolean); // Uklanja sve `false`, `null` ili `undefined` vrednosti
 

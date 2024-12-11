@@ -2,11 +2,17 @@ import axios from "axios";
 import React, { use, useEffect, useState } from "react";
 import "./hive.css";
 import { data } from "react-router-dom";
-
+//includes za nizove samo a some sa niz objekata
 function Hives() {
   const [hiveItems, setHiveItems] = useState([]);
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedHive, setSelectedHive] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredHives = hiveItems.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     function getData() {
       axios.get("http://localhost:4005/api/Hives").then((res) => {
@@ -99,9 +105,13 @@ function Hives() {
       )}
 
       <h2 className="hives-title">Lista Košnica</h2>
+      <input
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      ></input>
       <div className="hives-list">
-        {hiveItems &&
-          hiveItems.map((data) => {
+        {filteredHives.length > 0 &&
+          filteredHives.map((data) => {
             return (
               <div className="hive-card" key={data.id}>
                 <div className="hive-info">

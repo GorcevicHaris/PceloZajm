@@ -11,6 +11,8 @@ import HomePage from "./Pages/HomePage/HomePage";
 import axios from "axios";
 import HiveForm from "./Hive/HiveForm";
 import Hives from "./Hives/Hives";
+import UserForm from "./Users/UserForm";
+import Users from "./UsersED/Users";
 function App() {
   return (
     <BrowserRouter>
@@ -46,6 +48,8 @@ function AppWithContext() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/hiveAdmin" element={<HiveForm />} />
         <Route path="/hivesEditDelete" element={<Hives />} />
+        <Route path="/userForm" element={<UserForm />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </div>

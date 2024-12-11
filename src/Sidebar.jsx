@@ -19,6 +19,8 @@ const Sidebar = () => {
     { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
     { text: "Admin", icon: <TableChartIcon />, Link: "/hiveAdmin" },
     { text: "Hives", icon: <TypographyIcon />, Link: "/hivesEditDelete" },
+    { text: "InsertUser", icon: <TypographyIcon />, Link: "/userForm" },
+    { text: "Users", icon: <PersonIcon />, Link: "/users" },
     { text: "Maps", icon: <MapIcon /> },
   ];
 

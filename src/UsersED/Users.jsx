@@ -88,6 +88,16 @@ function Users() {
             }
             value={selectedUser.phone_number}
           ></input>
+          <label>Role</label>
+          <select
+            value={selectedUser.role}
+            onChange={(e) =>
+              setSelectedUser({ ...selectedUser, role: e.target.value })
+            }
+          >
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
           <div className="btnEdCl">
             <button className="btn-primary" onClick={() => setEditPopUp(false)}>
               Close
@@ -119,6 +129,7 @@ function Users() {
                   <label className="user-password">
                     Password - {data.password}
                   </label>
+                  <label className="user-role">Role - {data.role}</label>
                 </div>
                 <div className="user-actions">
                   <button

@@ -9,6 +9,7 @@ function UserForm() {
     email: "",
     password: "",
     phone_number: "",
+    role: "", // Podrazumevana vrednost za role
   });
 
   const handleChange = (e) => {
@@ -28,12 +29,13 @@ function UserForm() {
           width: "400px",
           confirmButtonColor: "#28a745",
         });
-        // Onda možete resetovati formu
+        // Resetovanje forme
         setFormData({
           name: "",
           email: "",
           password: "",
           phone_number: "",
+          role: "user", // Reset na podrazumevanu vrednost
         });
       })
       .catch((err) => {
@@ -101,6 +103,20 @@ function UserForm() {
             placeholder="Unesite broj telefona"
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="role">Uloga korisnika</label>
+          <select
+            name="role"
+            id="role"
+            value={formData.role}
+            onChange={handleChange}
+            required
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
         </div>
 
         <button type="submit" className="submit-button">

@@ -36,7 +36,7 @@ function UserForm() {
           title: "Korisnik uspešno dodat!",
           background: "#D4EDDA",
           width: "400px",
-          confirmButtonColor: "#28a745",
+          confirmButtonColor: "black",
         });
         // Resetovanje forme
         setFormData({

@@ -9,7 +9,6 @@ function Hives() {
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedHive, setSelectedHive] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [availableHives, setAvailableHives] = useState([]);
   const { role, setRole, hiveId, setHiveId } = useContext(Context);
   const navigate = useNavigate();
 
@@ -138,14 +137,12 @@ function Hives() {
                 </div>
                 <div className="hive-actions">
                   <button
-                    style={{ backgroundColor: "#0056b3" }}
                     onClick={() => editBtn(data)}
                     className="hive-edit-button"
                   >
                     Edit
                   </button>
                   <button
-                    style={{ backgroundColor: "#0056b3" }}
                     onClick={() => deleteHive(data.id)}
                     className="hive-delete-button"
                   >

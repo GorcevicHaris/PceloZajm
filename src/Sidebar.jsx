@@ -15,14 +15,17 @@ import { Link } from "react-router-dom";
 import { Context } from "./Context";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 const Sidebar = () => {
-  const { role, setRole } = useContext(Context);
+  const { role } = useContext(Context);
+
   console.log(role, "role");
   const menuItems = [
-    {
-      text: "ManageOrder",
-      icon: <AdminPanelSettingsIcon />,
-      Link: "/manageOrder",
-    },
+    role == "admin"
+      ? {
+          text: "ManageOrder",
+          icon: <AdminPanelSettingsIcon />,
+          Link: "/manageOrder",
+        }
+      : null,
     { text: "Dashboard", icon: <DashboardIcon />, Link: "/dashboard" },
     { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
     role === "admin"
@@ -37,9 +40,13 @@ const Sidebar = () => {
     role === "admin"
       ? { text: "Users", icon: <PersonIcon />, Link: "/users" }
       : null,
-    { text: "OrderHive", icon: <MapIcon />, Link: "/orderHive" },
+    role !== "admin"
+      ? { text: "OrderHive", icon: <MapIcon />, Link: "/orderHive" }
+      : null,
   ].filter(Boolean); // Uklanja sve `false`, `null` ili `undefined` vrednosti
-
+  if (!role) {
+    return "";
+  }
   return (
     <Drawer
       variant="permanent"

@@ -19,45 +19,21 @@ function App() {
   return (
     <BrowserRouter>
       <ContextProvider>
-        <AppWithContext />
+        <Sidebar />
+        <Routes>
+          <Route path="/manageOrder" element={<ManageOrder />} />
+          <Route path="/" element={<Register />} />
+          <Route path="/dashboard" element={<HomePage />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/hiveAdmin" element={<HiveForm />} />
+          <Route path="/hivesEditDelete" element={<Hives />} />
+          <Route path="/userForm" element={<UserForm />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/orderHive" element={<OrderHives />} />
+        </Routes>
       </ContextProvider>
     </BrowserRouter>
   );
 }
-
-function AppWithContext() {
-  const { islogged, setIsLogged } = useContext(Context);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:4005/api/homeGetData", { withCredentials: true })
-      .then((res) => {
-        if (res.data.Status === "Sucess") {
-          setIsLogged(true);
-        } else {
-          setIsLogged(false);
-        }
-      })
-      .catch(() => setIsLogged(false));
-  }, []);
-
-  return (
-    <div style={{ display: "flex" }}>
-      {islogged ? <Sidebar /> : null}
-      <Routes>
-        <Route path="/manageOrder" element={<ManageOrder />} />
-        <Route path="/" element={<Register />} />
-        <Route path="/dashboard" element={<HomePage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/hiveAdmin" element={<HiveForm />} />
-        <Route path="/hivesEditDelete" element={<Hives />} />
-        <Route path="/userForm" element={<UserForm />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/orderHive" element={<OrderHives />} />
-      </Routes>
-    </div>
-  );
-}
-
 export default App;

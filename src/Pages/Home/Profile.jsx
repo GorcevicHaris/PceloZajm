@@ -4,38 +4,33 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../../Context";
 
 function HomePage() {
-  const { userId, setUserId, islogged, setIsLogged } = useContext(Context);
-
-  const [userName, setUserName] = useState();
   const navigate = useNavigate();
-  const { role, setRole } = useContext(Context);
+  const { logout } = useContext(Context);
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
-    function getData() {
-      axios
-        .get("http://localhost:4005/api/homeGetData")
-        .then((response) => {
-          if (response.data.Status === "Sucess") {
-            setUserId(response.data.data[0].id);
-            setUserName(response.data.data[0].name);
-            console.log(response.data.data[0], "odgovor");
-            setRole(response.data.data[0].role, "probaa");
-          } else {
-            console.log("failed");
-          }
-        })
-        .catch((err) => console.log(err, "greska"));
-    }
-    getData();
-  }, [setUserId]);
-
+  // useEffect(() => {
+  //   function getData() {
+  //     axios
+  //       .get("http://localhost:4005/api/homeGetData")
+  //       .then((response) => {
+  //         if (response.data.Status === "Sucess") {
+  //           setUserId(response.data.data[0].id);
+  //           setUserName(response.data.data[0].name);
+  //           console.log(response.data.data[0], "odgovor");
+  //           setRole(response.data.data[0].role, "probaa");
+  //         } else {
+  //           console.log("failed");
+  //         }
+  //       })
+  //       .catch((err) => console.log(err, "greska"));
+  //   }
+  //   getData();
+  // }, [setUserId, userId]);
   function handleLogout() {
     axios
       .post("http://localhost:4005/api/logout")
       .then(() => {
-        setUserId(null);
-        setIsLogged(false);
+        logout();
         navigate("/login");
       })
       .catch((err) => console.log(err));

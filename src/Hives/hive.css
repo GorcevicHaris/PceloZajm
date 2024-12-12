@@ -1,7 +1,6 @@
 /* Kontejner za sadržaj */
 .hives-container {
   min-width: 800px;
-  margin: 40px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
@@ -9,6 +8,7 @@
   font-family: 'Arial', sans-serif;
   max-height: 680px;
   overflow-y: scroll;
+  margin-left: 150px;
 }
 
 /* Naslov */
@@ -54,7 +54,7 @@
 .hive-name {
   font-size: 18px;
   font-weight: bold;
-  color: #0056b3;
+  color: black;
 }
 
 .hive-description,
@@ -72,8 +72,9 @@ button {
   border-radius: 5px;
   cursor: pointer;
   color: white;
-  background-color: #0056b3;
+  background-color: black;
 }
+
 
 
 button:active {

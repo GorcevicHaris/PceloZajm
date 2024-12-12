@@ -146,14 +146,14 @@ function Users() {
                 </div>
                 <div className="user-actions">
                   <button
-                    style={{ backgroundColor: "#0056b3" }}
+                    style={{ backgroundColor: "black" }}
                     onClick={() => editBtn(data)}
                     className="user-edit-button"
                   >
                     Edit
                   </button>
                   <button
-                    style={{ backgroundColor: "#0056b3" }}
+                    style={{ backgroundColor: "black" }}
                     onClick={() => deleteUser(data.id)}
                     className="user-delete-button"
                   >

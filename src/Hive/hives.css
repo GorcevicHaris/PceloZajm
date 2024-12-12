@@ -55,7 +55,7 @@
     font-size: 16px;
     font-weight: bold;
     color: white;
-    background-color: #007bff;
+    background-color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -85,7 +85,7 @@
     padding: 8px 14px;
     font-size: 14px;
     color: white;
-    background-color: #28a745;
+    background-color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -105,18 +105,18 @@
   input:focus,
   textarea:focus,
   select:focus {
-    border-color: #007bff;
+    border-color: black;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     outline: none;
   }
   
   .submit-button:hover {
-    background-color: #0056b3;
+    background-color: black;
     transform: translateY(-2px);
   }
   
   .submit-button:active {
-    background-color: #004080;
+    background-color: black;
     transform: translateY(0);
   }
   

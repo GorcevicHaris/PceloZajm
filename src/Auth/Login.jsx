@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "../Context";
 function Login() {
-  const { userId, setUserId, islogged, setIsLogged } = useContext(Context);
+  const { login } = useContext(Context);
   const navigate = useNavigate();
   const [values, setValues] = useState({
     email: "",
@@ -17,7 +17,8 @@ function Login() {
     axios
       .post("http://localhost:4005/api/login", values)
       .then((res) => {
-        setIsLogged(true);
+        console.log(res.data.Token);
+        login(res.data.Token);
         return navigate("/profile");
       })
       .catch((err) => console.log(err));

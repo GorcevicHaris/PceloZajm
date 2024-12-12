@@ -5,6 +5,7 @@ import "./manageorder.css"; // Import the CSS
 const AdminOrders = () => {
   const [pendingOrders, setPendingOrders] = useState([]);
   const [availableHives, setAvailableHives] = useState([]);
+
   useEffect(() => {
     function getOrders() {
       axios
@@ -17,9 +18,11 @@ const AdminOrders = () => {
     }
     getOrders();
   }, []);
+
   const filteredPendingOrders = pendingOrders.filter(
     (data) => data.status == "pending"
   );
+
   function approveOrder(orderId, quantityHive) {
     axios
       .put("http://localhost:4005/api/approveOrder", {
@@ -31,8 +34,6 @@ const AdminOrders = () => {
         setPendingOrders((prevOrders) =>
           prevOrders.filter((order) => order.id !== orderId)
         );
-        // Ovo poređenje proverava da li je ID trenutne narudžbine (order.id)
-        //  različit od ID-ja narudžbine koja je upravo odobrena (orderId).
       })
       .catch((err) => {
         console.log("Error approving order:", err);
@@ -63,9 +64,12 @@ const AdminOrders = () => {
             <tr>
               <th>Order ID</th>
               <th>Name</th>
+              <th>Status</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>Quantity</th>
+              <th>Maintaining Hives</th> {/* Added column */}
+              <th>Honey Extraction</th> {/* Added column */}
               <th>Actions</th>
             </tr>
           </thead>
@@ -74,9 +78,12 @@ const AdminOrders = () => {
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.userName}</td>
+                <td>{order.status}</td>
                 <td>{order.start_date}</td>
                 <td>{order.end_date}</td>
                 <td>{order.quantityHive}</td>
+                <td>{order.Maintaining_hives}</td>
+                <td>{order.Honey_extraction}</td>
                 <td>
                   <button
                     onClick={() => approveOrder(order.id, order.quantityHive)}

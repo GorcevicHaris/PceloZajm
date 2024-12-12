@@ -11,7 +11,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    background-color: orange;
 }
 
 .container {
@@ -67,7 +67,7 @@ button {
     padding: 10px;
     font-size: 16px;
     color: #fff;
-    background: #4facfe;
+    background: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -75,7 +75,7 @@ button {
 }
 
 button:hover {
-    background: #00c6fb;
+    background: orange
 }
 
 /* Responsivnost za manje uređaje */

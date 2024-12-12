@@ -8,18 +8,38 @@ const OrderForm = () => {
     quantityHive: "",
     start_date: "",
     end_date: "",
-    honeyExtraction: "no", // New state for Honey Extraction
-    maintainingHives: "no", // New state for Maintaining Hives
+    honeyExtraction: "no",
+    maintainingHives: "no",
+    watchingHives: "no",
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [availableHives, setAvailableHives] = useState([]);
-  const { userId, setUserID } = useContext(Context);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const { userId } = useContext(Context);
+
+  const HIVE_RENTAL_PRICE = 30; // Price per hive rental
+  const EXTRACTION_COST = 2; // Cost for honey extraction per hive
+  const MAINTAINING_COST = 4; // Cost for maintaining hives per hive
+  const WATCHING_COST = 2; // Cost for watching hives per hive
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    // Calculate the total price whenever formData changes
+    const quantity = parseInt(formData.quantityHive || 0, 10);
+    const extraction = formData.honeyExtraction === "yes" ? EXTRACTION_COST : 0;
+    const maintaining =
+      formData.maintainingHives === "yes" ? MAINTAINING_COST : 0;
+    const watching = formData.watchingHives === "yes" ? WATCHING_COST : 0;
+
+    const calculatedPrice =
+      quantity * (HIVE_RENTAL_PRICE + extraction + maintaining + watching);
+    setTotalPrice(calculatedPrice);
+  }, [formData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +58,7 @@ const OrderForm = () => {
   }, []);
 
   function orderHive() {
-    const data = { ...formData, user_id: userId };
+    const data = { ...formData, user_id: userId, total_price: totalPrice };
     if (formData.quantityHive <= availableHives.length) {
       axios
         .post("http://localhost:4005/api/orderHives", data)
@@ -55,12 +75,13 @@ const OrderForm = () => {
     }
   }
 
-  console.log(userId, "lalalallalalal");
-  console.log(formData);
-
   return (
     <div className="order-hives">
       <h1>Create a New Order</h1>
+      <p>Price per hive is $30</p>
+      <p>Honey extraction per hive is $2</p>
+      <p>Maintaining hives per hive is $4</p>
+      <p>Watching hives per hive is $2</p>
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit} className="order-form">
@@ -122,6 +143,21 @@ const OrderForm = () => {
           </select>
         </div>
 
+        {/* Watching Hives Dropdown */}
+        <div className="select-container">
+          <label>Watching Hives:</label>
+          <select
+            name="watchingHives"
+            value={formData.watchingHives}
+            onChange={handleChange}
+            className="select-input"
+          >
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <p>Total Price: ${totalPrice}</p>
         <button onClick={orderHive} type="submit">
           Submit Order
         </button>

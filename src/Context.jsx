@@ -4,11 +4,10 @@ const Context = createContext();
 function ContextProvider({ children }) {
   let initialRole = localStorage.getItem("role");
   let initialId = localStorage.getItem("id");
-  const [data, setData] = useState([]);
   const [userId, setUserId] = useState(initialId);
   const [role, setRole] = useState(initialRole);
   const [hiveID, setHiveId] = useState();
-
+  const [pricePerHive, setPricePerHive] = useState(1);
   function login(token) {
     console.log(token, "token");
     const user = jwtDecode(token);
@@ -34,6 +33,8 @@ function ContextProvider({ children }) {
         setHiveId,
         login,
         logout,
+        pricePerHive,
+        setPricePerHive,
       }}
     >
       {children}

@@ -3,25 +3,23 @@ import axios from "axios";
 import "./manageorder.css"; // Import the CSS
 
 const AdminOrders = () => {
-  const [pendingOrders, setPendingOrders] = useState([]);
   const [availableHives, setAvailableHives] = useState([]);
-
+  const [filteredPendingOrders, setFilteredPendingOrders] = useState([]);
   useEffect(() => {
     function getOrders() {
       axios
         .get("http://localhost:4005/api/getOrders")
         .then((res) => {
           console.log(res.data, "pending");
-          setPendingOrders(res.data);
+          setFilteredPendingOrders(
+            res.data.filter((el) => el.status == "pending")
+          );
         })
         .catch((err) => console.log(err, "gresk"));
     }
     getOrders();
   }, []);
-
-  const filteredPendingOrders = pendingOrders.filter(
-    (data) => data.status == "pending"
-  );
+  console.log(filteredPendingOrders, "filtrirani pending orders");
 
   function approveOrder(orderId, quantityHive) {
     axios
@@ -31,7 +29,7 @@ const AdminOrders = () => {
       })
       .then((res) => {
         alert("Order approved successfully!");
-        setPendingOrders((prevOrders) =>
+        setFilteredPendingOrders((prevOrders) =>
           prevOrders.filter((order) => order.id !== orderId)
         );
       })
@@ -55,6 +53,18 @@ const AdminOrders = () => {
     getAvailableHives();
   }, []);
 
+  function declineDelete(id, user_id) {
+    axios
+      .delete("http://localhost:4005/api/declineDelete", {
+        data: { id: id, user_id: user_id },
+      })
+      .then((res) => {
+        console.log(res, "rrrrr");
+        setFilteredPendingOrders((prev) =>
+          prev.filter((data) => data.id !== id)
+        );
+      });
+  }
   return (
     <div>
       <h1>Pending Orders</h1>
@@ -68,8 +78,9 @@ const AdminOrders = () => {
               <th>Start Date</th>
               <th>End Date</th>
               <th>Quantity</th>
-              <th>Maintaining Hives</th> {/* Added column */}
-              <th>Honey Extraction</th> {/* Added column */}
+              <th>Maintaining Hives</th>
+              <th>Honey Extraction</th>
+              <th>Actions</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -89,6 +100,13 @@ const AdminOrders = () => {
                     onClick={() => approveOrder(order.id, order.quantityHive)}
                   >
                     Accept
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => declineDelete(order.id, order.user_id)}
+                  >
+                    Decline
                   </button>
                 </td>
               </tr>

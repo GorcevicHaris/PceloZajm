@@ -8,13 +8,15 @@ function ContextProvider({ children }) {
   const [role, setRole] = useState(initialRole);
   const [hiveID, setHiveId] = useState();
   const [pricePerHive, setPricePerHive] = useState(1);
+  const [name, setName] = useState("");
   function login(token) {
     console.log(token, "token");
     const user = jwtDecode(token);
-    console.log(user);
+    console.log(user, "toksen");
     localStorage.setItem("role", user.role);
     localStorage.setItem("id", user.userId);
     setRole(user.role);
+    setName(user.userName);
     setUserId(user.userId);
   }
   function logout() {
@@ -35,6 +37,7 @@ function ContextProvider({ children }) {
         logout,
         pricePerHive,
         setPricePerHive,
+        name,
       }}
     >
       {children}

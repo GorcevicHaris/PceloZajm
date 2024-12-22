@@ -143,7 +143,6 @@ const OrderForm = () => {
           </select>
         </div>
 
-        {/* Watching Hives Dsropdown */}
         <div className="select-container">
           <label>Watching Hives:</label>
           <select

@@ -17,7 +17,6 @@ function Login() {
     axios
       .post("http://localhost:4005/api/login", values)
       .then((res) => {
-        console.log(res.data.Token);
         login(res.data.Token);
         return navigate("/profile");
       })

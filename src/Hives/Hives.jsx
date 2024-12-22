@@ -9,21 +9,22 @@ function Hives() {
   const [editPopUp, setEditPopUp] = useState(false);
   const [selectedHive, setSelectedHive] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const { role, setRole, hiveId, setHiveId } = useContext(Context);
+  const { role, setHiveId, userId } = useContext(Context);
   const navigate = useNavigate();
 
   const filteredHives = hiveItems.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  axios.defaults.withCredentials = true;
+  console.log(userId, "ispravke");
   useEffect(() => {
     function getData() {
-      axios.get("http://localhost:4005/api/Hives").then((res) => {
-        console.log(res.data, "pokusaj");
-        setHiveItems(res.data);
-        console.log(res.data[0].id, "hiveid");
-        setHiveId(res.data[0].id);
-      });
+      axios
+        .get("http://localhost:4005/api/Hives", { params: { userId: userId } })
+        .then((res) => {
+          setHiveItems(res.data);
+          console.log(res.data);
+        });
     }
     getData();
   }, []);

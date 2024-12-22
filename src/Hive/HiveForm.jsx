@@ -9,16 +9,16 @@ import { Context } from "../Context";
 import { useNavigate } from "react-router-dom";
 
 function HiveForm() {
+  const navigate = useNavigate();
+  const [hiveItems, setHiveItems] = useState([]);
+  const { role, userId } = useContext(Context);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     location: "",
     status: "",
+    userId: userId,
   });
-  const navigate = useNavigate();
-  const [hiveItems, setHiveItems] = useState([]);
-  const { role, setRole } = useContext(Context);
-
   useEffect(() => {
     function getData() {
       axios.get("http://localhost:4005/api/Hives").then((res) => {

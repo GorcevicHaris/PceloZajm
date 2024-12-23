@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./manageorder.css"; // Import the CSS
+import { Context } from "../Context";
 
 const AdminOrders = () => {
   const [availableHives, setAvailableHives] = useState([]);
   const [filteredPendingOrders, setFilteredPendingOrders] = useState([]);
+  const { userId } = useContext(Context);
   useEffect(() => {
     function getOrders() {
       axios
-        .get("http://localhost:4005/api/getOrders")
+        .get("http://localhost:4005/api/getOrders", {
+          params: { admin_id: userId },
+        })
         .then((res) => {
-          console.log(res.data, "pending");
+          console.log(res.data, "pending", "asljdhasjkdhasd");
           setFilteredPendingOrders(
             res.data.filter((el) => el.status == "pending")
           );
@@ -26,6 +30,7 @@ const AdminOrders = () => {
       .put("http://localhost:4005/api/approveOrder", {
         orderId: orderId,
         quantityHive: quantityHive,
+        admin_id: userId,
       })
       .then((res) => {
         alert("Order approved successfully!");
@@ -34,11 +39,10 @@ const AdminOrders = () => {
         );
       })
       .catch((err) => {
-        console.log("Error approving order:", err);
+        console.error("Error approving order:", err);
+        const availableHives = err.response?.data?.availableHives || 0;
         alert(
-          `There are ${
-            availableHives.length > 0 ? availableHives.length : 0
-          } left`
+          `Order cannot be approved. There are only ${availableHives} hives available for this admin.`
         );
       });
   }

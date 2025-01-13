@@ -8,8 +8,8 @@ const OrderForm = () => {
     quantityHive: "",
     start_date: "",
     end_date: "",
-    honeyExtraction: "no",
-    maintainingHives: "no",
+    honeyExtraction: "",
+    maintainingHives: "",
     admin_id: "", // Dodano adminId
   });
   const [successMessage, setSuccessMessage] = useState("");
@@ -158,6 +158,7 @@ const OrderForm = () => {
             onChange={handleChange}
             className="select-input"
           >
+            <option disabled selected></option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
@@ -171,6 +172,7 @@ const OrderForm = () => {
             onChange={handleChange}
             className="select-input"
           >
+            <option disabled selected></option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>

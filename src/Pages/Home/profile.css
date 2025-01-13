@@ -1,0 +1,7 @@
+.profile-Container{
+    height: 100vh;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

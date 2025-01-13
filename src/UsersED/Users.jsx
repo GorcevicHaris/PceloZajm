@@ -124,6 +124,7 @@ function Users() {
 
       <h2 className="users-title">Lista Korisnika</h2>
       <input
+        className="pretraga"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search users"

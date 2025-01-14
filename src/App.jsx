@@ -15,11 +15,13 @@ import Users from "./UsersED/Users";
 import OrderHives from "./OrderHive/Order";
 import ManageOrder from "./Admin/ManageOrder";
 import Landing from "./components/Landing/Landing";
+import Header from "./Navigation/Header";
 function App() {
   return (
     <BrowserRouter>
       <ContextProvider>
         <Sidebar />
+        <Header />
         <Routes>
           <Route path="/manageOrder" element={<ManageOrder />} />
           <Route path="/register" element={<Register />} />

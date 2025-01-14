@@ -10,8 +10,8 @@ body {
     /* display: flex;
     justify-content: center;
     align-items: center; */
+    background-color: #fff9f2;
     min-height: 100vh;
-    background-color: orange;
 }
 
 .container {

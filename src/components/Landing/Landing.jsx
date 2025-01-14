@@ -1,53 +1,91 @@
+import { useState } from "react";
+import { ChevronRight } from "lucide-react";
 import "./landing.css";
 
 function App() {
+  const [hoveredId, setHoveredId] = useState(null);
+
   const beekeepers = [
     {
       id: 1,
-      name: "Marko Marković",
-      image: "logo512.png",
+      name: "Senad Gorcevic",
+      role: "Master pčelar",
+      specialty: "Organski med",
+      image: "image5.png",
     },
     {
       id: 2,
-      name: "Ana Anić",
-      image:
-        "https://images.unsplash.com/photo-1587773403675-ba676c058e8c?w=500&auto=format",
+      name: "Hamza Gorcevic",
+      role: "Specijalista za matice",
+      specialty: "Bagremov med",
+      image: "image2.png",
     },
     {
       id: 3,
-      name: "Petar Petrović",
-      image:
-        "https://images.unsplash.com/photo-1583845112239-97ef2b576b82?w=500&auto=format",
+      name: "Erhad Masovic",
+      role: "Tradicionalni pčelar",
+      specialty: "Livadski med",
+      image: "image3.png",
     },
     {
       id: 4,
-      name: "Jovana Jovanović",
-      image:
-        "https://images.unsplash.com/photo-1544634076-a90160ddf44d?w=500&auto=format",
+      name: "Milutin Milankovic",
+      role: "Inovativni pčelar",
+      specialty: "Šumski med",
+      image: "image4.png",
+    },
+    {
+      id: 5,
+      name: "Milutin Milankovic",
+      role: "Ekološki pčelar",
+      specialty: "Planinski med",
+      image: "image1.png",
     },
   ];
 
   return (
-    <div className="landing-container">
-      <header className="header">
-        <h1>Dobrodošli u Svet Pčelara</h1>
-        <p>Upoznajte naše iskusne pčelare i njihove proizvode</p>
-      </header>
+    <div className="app">
+      {/* Hero Section */}
+      <div className="hero">
+        <div className="hero-background" />
+        <div className="hero-content">
+          <div className="hero-icon"></div>
+          <h1>Dobrodošli u Svet Pčelara</h1>
+          <p>Upoznajte naše iskusne pčelare i njihove proizvode</p>
+        </div>
+      </div>
 
-      <div className="beekeepers-grid">
-        {beekeepers.map((beekeeper) => (
-          <div key={beekeeper.id} className="beekeeper-card">
-            <img
-              src={beekeeper.image}
-              alt={beekeeper.name}
-              className="beekeeper-image"
-            />
-            <div className="beekeeper-info">
-              <h2 className="beekeeper-name">{beekeeper.name}</h2>
-              <button className="view-button">Pregledaj</button>
+      {/* Beekeepers Grid */}
+      <div className="container">
+        <div className="beekeepers-grid">
+          {beekeepers.map((beekeeper) => (
+            <div
+              key={beekeeper.id}
+              className="beekeeper-card"
+              onMouseEnter={() => setHoveredId(beekeeper.id)}
+              onMouseLeave={() => setHoveredId(null)}
+            >
+              <div className="card-image-container">
+                <img
+                  src={beekeeper.image}
+                  alt={beekeeper.name}
+                  className="card-image"
+                />
+              </div>
+
+              <div className="card-content">
+                <h2>{beekeeper.name}</h2>
+                <p className="role">{beekeeper.role}</p>
+                <p className="specialty">{beekeeper.specialty}</p>
+
+                <button className="view-button">
+                  <span>Pregledaj</span>
+                  <ChevronRight className="button-icon" />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

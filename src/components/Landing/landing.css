@@ -1,81 +1,193 @@
-/* Reset default styles */
+/* Reset and base styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  .landing-container {
-    min-height: 100vh;
-    background-color: #fff9f2;
-    padding: 2rem;
-  }
-  
-  .header {
-    text-align: center;
-    color: #333;
-    margin-bottom: 3rem;
-  }
-  
-  .header h1 {
-    font-size: 2.5rem;
-    color: #ff8c00;
-    margin-bottom: 1rem;
-  }
-  
-  .header p {
-    font-size: 1.2rem;
-    color: #666;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff8e1 0%, #fff3e0 100%);
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 2rem;
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1576594496052-1352f4d7cf59?auto=format&fit=crop&q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+}
+
+.hero-content {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.hero-icon svg {
+  width: 4rem;
+  height: 4rem;
+  color: #f4a261;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  color: #774936;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  color: #8b5e34;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* Beekeepers Grid */
+.beekeepers-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
   .beekeepers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .beekeepers-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Beekeeper Card */
+.beekeeper-card {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.beekeeper-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.card-image-container {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.beekeeper-card:hover .card-image {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.card-content h2 {
+  font-size: 1.5rem;
+  color: #774936;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.role {
+  color: #8b5e34;
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.specialty {
+  color: #a67b5b;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.view-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(to right, #f4a261, #e76f51);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-button:hover {
+  background: linear-gradient(to right, #e76f51, #f4a261);
+}
+
+.button-icon {
+  transition: transform 0.3s ease;
+}
+
+.view-button:hover .button-icon {
+  transform: translateX(4px);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
   }
   
-  .beekeeper-card {
-    background-color: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+  .hero p {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
   }
   
-  .beekeeper-card:hover {
-    transform: translateY(-5px);
+  .hero p {
+    font-size: 1.1rem;
   }
   
-  .beekeeper-image {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+  .container {
+    padding: 2rem 1rem;
   }
-  
-  .beekeeper-info {
-    padding: 1.5rem;
-    text-align: center;
-  }
-  
-  .beekeeper-name {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 1rem;
-  }
-  
-  .view-button {
-    background-color: #ff8c00;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .view-button:hover {
-    background-color: #ff7300;
-  }
+}

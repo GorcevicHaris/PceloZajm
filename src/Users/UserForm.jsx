@@ -58,7 +58,7 @@ function UserForm() {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container-user">
       <h2 className="form-title">Dodaj novog korisnika</h2>
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">

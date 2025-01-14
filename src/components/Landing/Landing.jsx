@@ -56,7 +56,7 @@ function App() {
       </div>
 
       {/* Beekeepers Grid */}
-      <div className="container">
+      <div className="container-landing">
         <div className="beekeepers-grid">
           {beekeepers.map((beekeeper) => (
             <div

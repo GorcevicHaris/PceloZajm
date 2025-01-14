@@ -23,6 +23,7 @@ function ContextProvider({ children }) {
     localStorage.removeItem("id");
     localStorage.removeItem("role");
     setRole("");
+    setUserId("");
   }
   return (
     <Context.Provider

@@ -60,7 +60,7 @@
 }
 
 /* Container */
-.container {
+.container-landing {
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
@@ -99,7 +99,7 @@
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
-.card-image-container {
+.card-image-container-landing  {
   width: 100%;
   height: 250px;
   overflow: hidden;
@@ -187,7 +187,7 @@
     font-size: 1.1rem;
   }
   
-  .container {
+  .container-landing  {
     padding: 2rem 1rem;
   }
 }

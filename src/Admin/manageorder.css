@@ -1,68 +1,136 @@
-/* AdminOrders.css */
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* General table styles */
+/* Table styles */
+.table-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+  padding: 2rem;
+  position: relative;
+  margin-left: 250px;
+  
+}
+
+.table-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://images.unsplash.com/photo-1576594496052-1352f4d7cf59?auto=format&fit=crop&q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.05;
+  z-index: -1;
+
+}
+
 table {
-    width: 50%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    margin-left: 250px;
-  }
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   
-  th,
-  td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: linear-gradient(to right, #774936, #8b5e34);
+  color: white;
+  padding: 1.25rem 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+td {
+  padding: 1rem;
+  background: white;
+  border-bottom: 1px solid #e2d5c9;
+  color: #774936;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: #fff8e1;
+}
+
+button {
+  background: linear-gradient(to right, #f4a261, #e76f51);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #e76f51, #f4a261);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 111, 81, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+h1 {
+  color: #774936;
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 2rem 0;
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  table {
+    width: 95%;
   }
-  
-  th {
-    background-color: black;
-    color: white;
-  }
-  
-  td {
-    background-color: #f9f9f9;
-  }
-  
-  button {
-    background-color: black;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    padding: 1rem;
   }
 
-  button:hover {
-    background-color: orange;
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
-  
-  /* Table title */
+
   h1 {
-    text-align: center;
-    font-size: 2em;
-    color: #333;
+    font-size: 2rem;
   }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    table {
-      font-size: 14px;
-    }
-  
-    th, td {
-      padding: 10px;
-    }
-  
-    /* Make the table scrollable on small screens */
-    .table-container {
-      overflow-x: auto;
-    }
-  
-    /* Adjust button width for smaller screens */
-    button {
-      width: 100%;
-      padding: 10px 0;
-    }
+
+  th, td {
+    padding: 0.75rem;
   }
-  
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}

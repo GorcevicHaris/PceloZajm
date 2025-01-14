@@ -1,72 +1,55 @@
-import React, { useContext, useState } from "react";
-import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonIcon from "@mui/icons-material/Person";
-import TableChartIcon from "@mui/icons-material/TableChart";
-import TypographyIcon from "@mui/icons-material/TextFields";
-import MapIcon from "@mui/icons-material/Map";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "./Context";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import "./Sidebar.css";
+
 const Sidebar = () => {
   const { role } = useContext(Context);
 
-  console.log(role, "role");
   const menuItems = [
-    role == "admin"
+    role === "admin"
       ? {
           text: "ManageOrder",
-          icon: <AdminPanelSettingsIcon />,
-          Link: "/manageOrder",
+          icon: "📋",
+          link: "/manageOrder",
         }
       : null,
-    { text: "Dashboard", icon: <DashboardIcon />, Link: "/dashboard" },
-    { text: "User Profile", icon: <PersonIcon />, Link: "/profile" },
+    { text: "Dashboard", icon: "📊", link: "/dashboard" },
+    { text: "User Profile", icon: "👤", link: "/profile" },
+    role === "admin" ? { text: "Admin", icon: "⚙️", link: "/hiveAdmin" } : null,
     role === "admin"
-      ? { text: "Admin", icon: <TableChartIcon />, Link: "/hiveAdmin" }
+      ? { text: "Hives", icon: "🏠", link: "/hivesEditDelete" }
       : null,
     role === "admin"
-      ? { text: "Hives", icon: <TypographyIcon />, Link: "/hivesEditDelete" }
+      ? { text: "InsertUser", icon: "➕", link: "/userForm" }
       : null,
-    role === "admin"
-      ? { text: "InsertUser", icon: <TypographyIcon />, Link: "/userForm" }
-      : null,
-    role === "admin"
-      ? { text: "Users", icon: <PersonIcon />, Link: "/users" }
-      : null,
+    role === "admin" ? { text: "Users", icon: "👥", link: "/users" } : null,
     role !== "admin"
-      ? { text: "OrderHive", icon: <MapIcon />, Link: "/orderHive" }
+      ? { text: "OrderHive", icon: "🛒", link: "/orderHive" }
       : null,
-  ].filter(Boolean); // Uklanja sve `false`, `null` ili `undefined` vrednosti
+  ].filter(Boolean);
+
   if (!role) {
-    return "";
+    return null;
   }
+
   return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: 240,
-        "& .MuiDrawer-paper": {
-          width: 240,
-          boxSizing: "border-box",
-        },
-      }}
-    >
-      <List>
+    <div className="sidebar">
+      <div className="sidebar-header">
+        <span className="logo-icon">🐝</span>
+        <h2 style={{ color: "black" }}>Bee Admin</h2>
+      </div>
+      <nav className="sidebar-nav">
         {menuItems.map((item, index) => (
-          <ListItem button key={index} component={Link} to={item.Link}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText style={{ color: "black" }} primary={item.text} />
-          </ListItem>
+          <Link to={item.link} key={index} className="nav-item">
+            <span className="nav-icon">{item.icon}</span>
+            <span style={{ color: "black" }} className="nav-text">
+              {item.text}
+            </span>
+          </Link>
         ))}
-      </List>
-    </Drawer>
+      </nav>
+    </div>
   );
 };
 

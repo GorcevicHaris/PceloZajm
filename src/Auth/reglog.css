@@ -1,94 +1,165 @@
-/* Reset osnovnih stilova */
+/* Base styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-    background-color: #fff9f2;
+  }
+  
+  body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
     min-height: 100vh;
-}
-
-.container {
+  }
+  
+  .container {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    min-width: 400px;
-}
-
-h2 {
-    margin-bottom: 20px;
-    color: #333;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Background decoration */
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://images.unsplash.com/photo-1576594496052-1352f4d7cf59?auto=format&fit=crop&q=80&w=1920');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.05;
+    z-index: -1;
+  }
+  
+  /* Login form styles */
+  .login-box {
+    background: f7e4b2;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    backdrop-filter: blur(8px);
+  }
+  
+  h2 {
+    color: #774936;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
     text-align: center;
-}
-
-form {
+    font-weight: 600;
+  }
+  
+  form {
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
     width: 100%;
-}
-
-.form-group {
+  }
+  
+  .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
-}
-
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-}
-
-input:focus {
+    gap: 0.5rem;
+  }
+  
+  label {
+    color: #8b5e34;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  
+  input {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 2px solid #e2d5c9;
+    border-radius: 0.75rem;
+    background: white;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus {
     outline: none;
-    border-color: #4facfe;
-    box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
-}
-
-button {
-    padding: 10px;
-    font-size: 16px;
-    color: #fff;
-    background: black;
+    border-color: #f4a261;
+    box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
+  }
+  
+  input::placeholder {
+    color: #cbb7a7;
+  }
+  
+  button {
+    background: linear-gradient(to right, #f4a261, #e76f51);
+    color: white;
+    padding: 1rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-button:hover {
-    background: orange
-}
-
-/* Responsivnost za manje uređaje */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  button:hover {
+    background: linear-gradient(to right, #e76f51, #f4a261);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 111, 81, 0.2);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  .signup-link {
+    color: #f4a261;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .signup-link:hover {
+    color: #e76f51;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .login-box {
+      padding: 2rem;
     }
-
+  
+    h2 {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
     .container {
-        padding: 15px;
+      padding: 1rem;
     }
-
+  
+    .login-box {
+      padding: 1.5rem;
+    }
+  
+    h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    input {
+      padding: 0.875rem;
+    }
+  
     button {
-        font-size: 14px;
+      padding: 0.875rem;
     }
-}
+  }

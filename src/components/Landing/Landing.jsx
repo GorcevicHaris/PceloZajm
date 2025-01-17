@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import "./landing.css";
 import { useNavigate } from "react-router-dom";
+import Image1 from "../../Assets/image1.png";
+import Image2 from "../../Assets/image2.png";
+import Image3 from "../../Assets/image3.png";
+import Image4 from "../../Assets/image4.png";
 
 function App() {
   const [hoveredId, setHoveredId] = useState(null);
@@ -20,35 +24,35 @@ function App() {
       name: "Senad Gorcevic",
       role: "Master pčelar",
       specialty: "Organski med",
-      image: "image5.png",
+      image: Image1,
     },
     {
       id: 2,
       name: "Hamza Gorcevic",
       role: "Specijalista za matice",
       specialty: "Bagremov med",
-      image: "image2.png",
+      image: Image2,
     },
     {
       id: 3,
       name: "Erhad Masovic",
       role: "Tradicionalni pčelar",
       specialty: "Livadski med",
-      image: "image3.png",
+      image: Image3,
     },
     {
       id: 4,
       name: "Milutin Milankovic",
       role: "Inovativni pčelar",
       specialty: "Šumski med",
-      image: "image4.png",
+      image: Image4,
     },
     {
       id: 5,
       name: "Milutin Milankovic",
       role: "Ekološki pčelar",
       specialty: "Planinski med",
-      image: "image1.png",
+      image: Image1,
     },
   ];
 

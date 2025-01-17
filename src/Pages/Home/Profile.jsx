@@ -5,7 +5,15 @@ import { Context } from "../../Context";
 import "./profile.css";
 function HomePage() {
   const navigate = useNavigate();
-  const { logout, name } = useContext(Context);
+  const { logout, name, userId } = useContext(Context);
+  let auth = document.cookie;
+  console.log(auth, "auth");
+  useEffect(() => {
+    if (!userId) {
+      navigate("/");
+    }
+  }, []);
+  console.log(userId, "user id");
   axios.defaults.withCredentials = true;
   function handleLogout() {
     axios

@@ -122,6 +122,7 @@ function Hives() {
 
       <h2 className="hives-title">Lista Košnica</h2>
       <input
+        placeholder="Search hives"
         className="pretraga"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}

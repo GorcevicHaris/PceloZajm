@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import "./landing.css";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [hoveredId, setHoveredId] = useState(null);
+  const navigate = useNavigate();
+  let auth = document.cookie;
+  console.log(auth, "auth");
+  useEffect(() => {
+    if (auth) {
+      navigate("/profile");
+    }
+  }, []);
 
   const beekeepers = [
     {
@@ -54,8 +63,6 @@ function App() {
           <p>Upoznajte naše iskusne pčelare i njihove proizvode</p>
         </div>
       </div>
-
-      {/* Beekeepers Grid */}
       <div className="container-landing">
         <div className="beekeepers-grid">
           {beekeepers.map((beekeeper) => (

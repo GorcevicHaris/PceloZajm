@@ -13,7 +13,9 @@
   }
   
   .pretraga{
-    width: 70%;
+    width: 20%;
+    background-color: #f7e4b2;
+    border: none;
   }
   .users-title {
     font-size: 24px;
@@ -36,7 +38,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    background-color: #fff;
+    background-color: #f7e4b2;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;

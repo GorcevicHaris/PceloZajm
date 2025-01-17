@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./orderhives.css";
 import { Context } from "../Context";
+import { useNavigate } from "react-router-dom";
 
 const OrderForm = () => {
   const [formData, setFormData] = useState({
@@ -12,16 +13,22 @@ const OrderForm = () => {
     maintainingHives: "",
     admin_id: "", // Dodano adminId
   });
+  const navigate = useNavigate();
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [availableHives, setAvailableHives] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const { userId } = useContext(Context);
+  const { userId, role } = useContext(Context);
   const [nameOfadmin, setNameOfAdmin] = useState([]);
   const HIVE_RENTAL_PRICE = 30; // Price per hive rental
   const EXTRACTION_COST = 2; // Cost for honey extraction per hive
   const MAINTAINING_COST = 4; // Cost for maintaining hives per hive
 
+  let auth = document.cookie;
+
+  // if (!role) {
+  //   navigate("/");
+  // }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });

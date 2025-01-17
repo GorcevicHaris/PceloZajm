@@ -23,7 +23,7 @@ function Register() {
   console.log(auth, "auth");
   useEffect(() => {
     if (auth) {
-      navigate("/home");
+      navigate("/profile");
     }
   }, []);
   console.log(values);

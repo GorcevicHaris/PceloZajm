@@ -7,7 +7,7 @@
 
 .app {
   min-height: 100vh;
-  background: linear-gradient(180deg, #fff8e1 0%, #fff3e0 100%);
+  background: linear-gradient(180deg, q 0%, #fff3e0 100%);
 }
 
 /* Hero Section */

@@ -30,7 +30,7 @@ function Login() {
       navigate("/profile");
     }
   }, []);
-
+ 
   return (
     <div className="container">
       <div className="login-box">

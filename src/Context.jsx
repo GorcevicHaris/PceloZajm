@@ -2,19 +2,24 @@ import { createContext, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 const Context = createContext();
 function ContextProvider({ children }) {
-  let initialRole = localStorage.getItem("role");
-  let initialId = localStorage.getItem("id");
-  const [userId, setUserId] = useState(initialId);
-  const [role, setRole] = useState(initialRole);
+  const [userId, setUserId] = useState(
+    localStorage.getItem("token")
+      ? jwtDecode(localStorage.getItem("token")).userId
+      : ""
+  );
+  const [role, setRole] = useState(
+    localStorage.getItem("token")
+      ? jwtDecode(localStorage.getItem("token")).role
+      : ""
+  )
   const [hiveID, setHiveId] = useState();
   const [pricePerHive, setPricePerHive] = useState(1);
   const [name, setName] = useState("");
   function login(token) {
+    localStorage.setItem("token", token);
     console.log(token, "token");
     const user = jwtDecode(token);
     console.log(user, "toksen");
-    localStorage.setItem("role", user.role);
-    localStorage.setItem("id", user.userId);
     setRole(user.role);
     setName(user.userName);
     setUserId(user.userId);

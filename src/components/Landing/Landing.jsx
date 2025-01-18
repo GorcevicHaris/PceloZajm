@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import "./landing.css";
 import { useNavigate } from "react-router-dom";
@@ -6,18 +6,23 @@ import Image1 from "../../Assets/image1.png";
 import Image2 from "../../Assets/image2.png";
 import Image3 from "../../Assets/image3.png";
 import Image4 from "../../Assets/image4.png";
+import Image5 from "../../Assets/image5.png";
+
+import { Context } from "../../Context";
 
 function App() {
   const [hoveredId, setHoveredId] = useState(null);
+  const { userId } = useContext(Context);
+
   const navigate = useNavigate();
   let auth = document.cookie;
   console.log(auth, "auth");
   useEffect(() => {
-    if (auth) {
+    if (userId) {
       navigate("/profile");
     }
   }, []);
-  //
+  console.log(userId, "user id iz landinga");
   const beekeepers = [
     {
       id: 1,
@@ -52,7 +57,7 @@ function App() {
       name: "Milutin Milankovic",
       role: "Ekološki pčelar",
       specialty: "Planinski med",
-      image: Image1,
+      image: Image5,
     },
   ];
 

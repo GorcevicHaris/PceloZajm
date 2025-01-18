@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import "./manageorder.css"; // Import the CSS
+import "./manageorder.css";
 import { Context } from "../Context";
 
 const AdminOrders = () => {
   const [availableHives, setAvailableHives] = useState([]);
   const [filteredPendingOrders, setFilteredPendingOrders] = useState([]);
   const { userId } = useContext(Context);
+
   useEffect(() => {
     function getOrders() {
       axios
@@ -23,7 +24,6 @@ const AdminOrders = () => {
     }
     getOrders();
   }, []);
-  console.log(filteredPendingOrders, "filtrirani pending orders");
 
   function approveOrder(orderId, quantityHive) {
     axios
@@ -69,6 +69,7 @@ const AdminOrders = () => {
         );
       });
   }
+  console.log(filteredPendingOrders, "filtrirani niz");
   return (
     <div>
       <h1>Pending Orders</h1>
@@ -91,22 +92,24 @@ const AdminOrders = () => {
           <tbody>
             {filteredPendingOrders.map((order) => (
               <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.userName}</td>
-                <td>{order.status}</td>
-                <td>{order.start_date}</td>
-                <td>{order.end_date}</td>
-                <td>{order.quantityHive}</td>
-                <td>{order.Maintaining_hives}</td>
-                <td>{order.Honey_extraction}</td>
-                <td>
+                <td data-label="Order ID">{order.id}</td>
+                <td data-label="Name">{order.userName}</td>
+                <td data-label="Status">{order.status}</td>
+                <td data-label="Start Date">{order.start_date}</td>
+                <td data-label="End Date">{order.end_date}</td>
+                <td data-label="Quantity">{order.quantityHive}</td>
+                <td data-label="Maintaining Hives">
+                  {order.Maintaining_hives}
+                </td>
+                <td data-label="Honey Extraction">{order.Honey_extraction}</td>
+                <td data-label="Action">
                   <button
                     onClick={() => approveOrder(order.id, order.quantityHive)}
                   >
                     Accept
                   </button>
                 </td>
-                <td>
+                <td data-label="Action">
                   <button
                     onClick={() => declineDelete(order.id, order.user_id)}
                   >

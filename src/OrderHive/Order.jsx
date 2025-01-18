@@ -99,13 +99,13 @@ const OrderForm = () => {
 
   return (
     <div className="order-hives">
-      <h1>Create a New Order</h1>
-      <p>Price per hive is $30</p>
-      <p>Honey extraction per hive is $2</p>
-      <p>Maintaining hives per hive is $4</p>
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit} className="order-form">
+        <h1>Create a New Order</h1>
+        <p>Price per hive is $30</p>
+        <p>Honey extraction per hive is $2</p>
+        <p>Maintaining hives per hive is $4</p>
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <div>
           <label>Choose Admin:</label>
           <select name="admin_id" onChange={handleChange}>

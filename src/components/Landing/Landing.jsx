@@ -2,11 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import "./landing.css";
 import { useNavigate } from "react-router-dom";
-import Image1 from "../../Assets/image1.png";
-import Image2 from "../../Assets/image2.png";
-import Image3 from "../../Assets/image3.png";
-import Image4 from "../../Assets/image4.png";
-import Image5 from "../../Assets/image5.png";
 
 import { Context } from "../../Context";
 import axios from "axios";
@@ -52,7 +47,7 @@ function App() {
 
             <div className="card-content">
               <h2>{beekeeper.name}</h2>
-              <p className="role">Pčelar</p> {/* Podrazumevana uloga */}
+              <p className="role">Pčelar</p>
               <p className="specialty">Specijalnost nije dostupna</p>{" "}
               <button
                 onClick={() => goToPcelarPosts(beekeeper.id)}

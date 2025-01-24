@@ -36,13 +36,13 @@ function PcelarsPosts() {
         });
     }
   }, [id]);
-
+  console.log(data[0]?.name, "pregled");
   if (loading) return <p>Učitavanje...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className="pcelar-posts">
-      <h1>Postovi pčelara </h1>
+      <h1>Postovi pčelara {data[0]?.name}</h1>
       {data.length === 0 ? (
         <p>Nema postova za ovog pčelara.</p>
       ) : (

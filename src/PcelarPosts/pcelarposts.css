@@ -1,0 +1,89 @@
+
+.pcelar-posts {
+    font-family: Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .pcelar-posts h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .post-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .post-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .post-content {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .post-content h2 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .post-content p {
+    margin: 0;
+    font-size: 1em;
+    color: #666;
+  }
+  
+  /* Responzivnost */
+  @media (min-width: 768px) {
+    .post-card {
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    .post-card img {
+      width: 40%;
+      height: auto;
+      border-bottom: none;
+      border-right: 1px solid #ddd;
+    }
+  
+    .post-content {
+      padding: 20px;
+      text-align: left;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .pcelar-posts {
+      padding: 40px;
+    }
+  
+    .post-content h2 {
+      font-size: 1.75em;
+    }
+  
+    .post-content p {
+      font-size: 1.1em;
+    }
+  }
+  

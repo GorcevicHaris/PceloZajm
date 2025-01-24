@@ -9,99 +9,61 @@ import Image4 from "../../Assets/image4.png";
 import Image5 from "../../Assets/image5.png";
 
 import { Context } from "../../Context";
+import axios from "axios";
 
 function App() {
   const [hoveredId, setHoveredId] = useState(null);
   const { userId } = useContext(Context);
-
+  const [info, setInfo] = useState([]);
   const navigate = useNavigate();
-  let auth = document.cookie;
-  console.log(auth, "auth");
+
+  function goToPcelarPosts(id) {
+    navigate(`/pcelarPosts/${id}`);
+  }
+
   useEffect(() => {
-    if (userId) {
-      navigate("/profile");
+    if (!userId) {
+      navigate("/");
     }
+  }, [userId]);
+
+  useEffect(() => {
+    function getInfo() {
+      axios.get("http://localhost:4005/api/getAdminNames").then((res) => {
+        console.log(res.data, "informacije po adminima");
+        setInfo(res.data);
+      });
+    }
+    getInfo();
   }, []);
   console.log(userId, "user id iz landinga");
-  const beekeepers = [
-    {
-      id: 1,
-      name: "Senad Gorcevic",
-      role: "Master pčelar",
-      specialty: "Organski med",
-      image: Image1,
-    },
-    {
-      id: 2,
-      name: "Hamza Gorcevic",
-      role: "Specijalista za matice",
-      specialty: "Bagremov med",
-      image: Image2,
-    },
-    {
-      id: 3,
-      name: "Erhad Masovic",
-      role: "Tradicionalni pčelar",
-      specialty: "Livadski med",
-      image: Image3,
-    },
-    {
-      id: 4,
-      name: "Milutin Milankovic",
-      role: "Inovativni pčelar",
-      specialty: "Šumski med",
-      image: Image4,
-    },
-    {
-      id: 5,
-      name: "Milutin Milankovic",
-      role: "Ekološki pčelar",
-      specialty: "Planinski med",
-      image: Image5,
-    },
-  ];
 
   return (
-    <div className="app">
-      {/* Hero Section */}
-      <div className="hero">
-        <div className="hero-background" />
-        <div className="hero-content">
-          <div className="hero-icon"></div>
-          <h1>Dobrodošli u Svet Pčelara</h1>
-          <p>Upoznajte naše iskusne pčelare i njihove proizvode</p>
-        </div>
-      </div>
-      <div className="container-landing">
-        <div className="beekeepers-grid">
-          {beekeepers.map((beekeeper) => (
-            <div
-              key={beekeeper.id}
-              className="beekeeper-card"
-              onMouseEnter={() => setHoveredId(beekeeper.id)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              <div className="card-image-container">
-                <img
-                  src={beekeeper.image}
-                  alt={beekeeper.name}
-                  className="card-image"
-                />
-              </div>
-
-              <div className="card-content">
-                <h2>{beekeeper.name}</h2>
-                <p className="role">{beekeeper.role}</p>
-                <p className="specialty">{beekeeper.specialty}</p>
-
-                <button className="view-button">
-                  <span>Pregledaj</span>
-                  <ChevronRight className="button-icon" />
-                </button>
-              </div>
+    <div className="container-landing">
+      <div className="beekeepers-grid">
+        {info.map((beekeeper, index) => (
+          <div
+            key={index} // Koristi index jer API verovatno ne pruža ID
+            className="beekeeper-card"
+          >
+            <div className="card-image-container">
+              <img alt={beekeeper.name} className="card-image" />
             </div>
-          ))}
-        </div>
+
+            <div className="card-content">
+              <h2>{beekeeper.name}</h2>
+              <p className="role">Pčelar</p> {/* Podrazumevana uloga */}
+              <p className="specialty">Specijalnost nije dostupna</p>{" "}
+              <button
+                onClick={() => goToPcelarPosts(beekeeper.id)}
+                className="view-button"
+              >
+                <span>Pregledaj</span>
+                <ChevronRight className="button-icon" />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

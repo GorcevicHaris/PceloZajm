@@ -11,7 +11,7 @@ function ContextProvider({ children }) {
     localStorage.getItem("token")
       ? jwtDecode(localStorage.getItem("token")).role
       : ""
-  )
+  );
   const [hiveID, setHiveId] = useState();
   const [pricePerHive, setPricePerHive] = useState(1);
   const [name, setName] = useState("");
@@ -25,8 +25,7 @@ function ContextProvider({ children }) {
     setUserId(user.userId);
   }
   function logout() {
-    localStorage.removeItem("id");
-    localStorage.removeItem("role");
+    localStorage.removeItem("token");
     setRole("");
     setUserId("");
   }

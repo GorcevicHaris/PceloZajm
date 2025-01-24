@@ -1,13 +1,12 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Sidebar from "./Sidebar"; // Dodajemo bočnu traku
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import ContextProvider from "./Context";
 import { Context } from "./Context";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Profile from "./Pages/Home/Profile";
-import axios from "axios";
 import HiveForm from "./Hive/HiveForm";
 import Hives from "./Hives/Hives";
 import UserForm from "./Users/UserForm";
@@ -16,17 +15,32 @@ import OrderHives from "./OrderHive/Order";
 import ManageOrder from "./Admin/ManageOrder";
 import Landing from "./components/Landing/Landing";
 import Header from "./Navigation/Header";
+import DashBoard from "./Dashboard/Dashboard";
+import PcelarsPosts from "./PcelarPosts/PcelarsPosts";
+
+const LandingGuard = () => {
+  const { userId } = useContext(Context);
+  return userId ? <Navigate to="/dashboard" replace /> : <Landing />;
+};
+
+const PcelarPostsGuard = () => {
+  const { userId } = useContext(Context);
+  return userId ? <Navigate to="/dashboard" replace /> : <PcelarsPosts />;
+};
+
 function App() {
   return (
-    <BrowserRouter>
-      <ContextProvider>
+    <ContextProvider>
+      <BrowserRouter>
         <Sidebar />
         <Header />
         <Routes>
+          <Route path="/pcelarPosts/:id" element={<PcelarPostsGuard />} />
+          <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/manageOrder" element={<ManageOrder />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<LandingGuard />} />
           <Route path="/hiveAdmin" element={<HiveForm />} />
           <Route path="/hivesEditDelete" element={<Hives />} />
           <Route path="/userForm" element={<UserForm />} />
@@ -34,8 +48,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/orderHive" element={<OrderHives />} />
         </Routes>
-      </ContextProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ContextProvider>
   );
 }
+
 export default App;

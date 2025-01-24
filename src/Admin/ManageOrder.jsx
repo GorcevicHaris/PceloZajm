@@ -24,7 +24,7 @@ const AdminOrders = () => {
     }
     getOrders();
   }, []);
-  //
+
   function approveOrder(orderId, quantityHive) {
     axios
       .put("http://localhost:4005/api/approveOrder", {

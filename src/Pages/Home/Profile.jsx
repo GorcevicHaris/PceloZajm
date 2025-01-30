@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../../Context";
 import "./profile.css";
+import ProfileImageUpload from "../../ProfileImage/ProfileImageUpload";
 function HomePage() {
   const navigate = useNavigate();
   const { logout, name, userId } = useContext(Context);
+  //nedostaje u context userId
   let auth = document.cookie;
   console.log(auth, "auth");
   useEffect(() => {
@@ -27,6 +29,8 @@ function HomePage() {
 
   return (
     <div className="profile-Container">
+      <h2>Your Profile</h2>
+      <ProfileImageUpload userId={userId} />
       {name}
       <button style={{ backgroundColor: "red" }} onClick={handleLogout}>
         Logout

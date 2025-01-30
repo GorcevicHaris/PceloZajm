@@ -6,7 +6,7 @@ import { Context } from "../Context";
 
 function PcelarsPosts() {
   const { id } = useParams(); // Preuzimanje ID-a iz URL-a
-  const { userId, role } = useContext(Context);
+  const { userId } = useContext(Context);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

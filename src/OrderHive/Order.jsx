@@ -107,7 +107,7 @@ const OrderForm = () => {
         {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <div>
-          <label>Choose Admin:</label>
+          <label>Choose Beekeeper</label>
           <select name="admin_id" onChange={handleChange}>
             <option value="">Select an admin</option>
             {nameOfadmin &&

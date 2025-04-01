@@ -14,7 +14,9 @@ const Sidebar = () => {
           link: "/manageOrder",
         }
       : null,
-    { text: "Dashboard", icon: "📊", link: "/dashboard" },
+    role === "admin"
+      ? { text: "Dashboard", icon: "📊", link: "/dashboard" }
+      : null,
     { text: "User Profile", icon: "👤", link: "/profile" },
     role === "admin" ? { text: "Admin", icon: "⚙️", link: "/hiveAdmin" } : null,
     role === "admin"

@@ -18,6 +18,8 @@ function Register() {
     name: "",
     email: "",
     password: "",
+    phone_number: 0,
+    role: "",
   });
   let auth = document.cookie;
   console.log(auth, "auth");
@@ -58,6 +60,26 @@ function Register() {
             type="password"
             placeholder="Enter your password"
           />
+        </div>
+        <div className="form-group">
+          <label>Phone number</label>
+          <input
+            onChange={(e) =>
+              setValues({ ...values, phone_number: e.target.value })
+            }
+            type="phone_number"
+            placeholder="Enter your phone_number"
+          />
+        </div>
+        <div className="form-group">
+          <label>Role</label>
+          <select
+            onChange={(e) => setValues({ ...values, role: e.target.value })}
+          >
+            <option></option>
+            <option>admin</option>
+            <option>user</option>
+          </select>
         </div>
         <button onClick={postData} type="button">
           Register

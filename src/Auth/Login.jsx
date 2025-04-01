@@ -58,7 +58,7 @@ function Login() {
             />
           </div>
           <button type="submit">Prijavi se</button>
-          <div className="signup-link" onClick={() => navigate("/")}>
+          <div className="signup-link" onClick={() => navigate("/register")}>
             Nemate nalog? Registrujte se
           </div>
         </form>

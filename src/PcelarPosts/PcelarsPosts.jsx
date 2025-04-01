@@ -6,7 +6,6 @@ import { Context } from "../Context";
 
 function PcelarsPosts() {
   const { id } = useParams(); // Preuzimanje ID-a iz URL-a
-  const { userId } = useContext(Context);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,9 +53,8 @@ function PcelarsPosts() {
               className="post-image"
             />
             <div className="post-content">
-              <h2>Post {index + 1}</h2> {/* Dodajte prilagođeni naslov */}
-              <p>Opis nije dostupan.</p>{" "}
-              {/* Ako `post.description` ne postoji */}
+              <h2>Post {index + 1}</h2>
+              <p>Opis nije dostupan.</p>
             </div>
           </div>
         ))

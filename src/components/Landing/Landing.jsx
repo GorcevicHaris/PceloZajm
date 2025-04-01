@@ -2,82 +2,62 @@ import { useContext, useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import "./landing.css";
 import { useNavigate } from "react-router-dom";
-import ProfileImageUpload from "../../ProfileImage/ProfileImageUpload";
-import { useCookies } from "react-cookie";
-
 import { Context } from "../../Context";
 import axios from "axios";
 
 function App() {
   const { userId } = useContext(Context);
-  const [info, setInfo] = useState([]);
+  const [profileImages, setProfileImages] = useState([]);
   const navigate = useNavigate();
-  const [profileImage, setProfileImage] = useState(null);
 
-  // Функција за преузимање профилне слике
-
-  // Ефекат за учитавање слике при монтажи
+  // Učitavanje svih profilnih slika i informacija o pčelarima
   useEffect(() => {
-    const fetchProfileImage = async () => {
+    const fetchAllProfileImages = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4005/api/getProfileImage",
-          {
-            params: { userId },
-          }
+          "http://localhost:4005/api/getAllProfileImages"
         );
         if (response?.data) {
-          setProfileImage(response.data.imageLink);
+          setProfileImages(response.data); // Čuva sve podatke o pčelarima
         }
       } catch (error) {
-        console.error("Error fetching profile image:", error);
+        console.error("Error fetching all profile images:", error);
       }
     };
-    fetchProfileImage();
-  }, [userId]);
+    fetchAllProfileImages();
+  }, []);
 
-  function goToPcelarPosts(id) {
-    navigate(`/pcelarPosts/${id}`);
-  }
-  console.log(profileImage, "profile image", userId, "userid");
+  // Ako nema userId, preusmeri na login stranicu
   useEffect(() => {
     if (!userId) {
       navigate("/");
     }
   }, [userId]);
 
-  useEffect(() => {
-    function getInfo() {
-      axios.get("http://localhost:4005/api/getAdminNames").then((res) => {
-        console.log(res.data, "informacije po adminima");
-        setInfo(res.data);
-      });
-    }
-    getInfo();
-  }, []);
-  console.log(userId, "user id iz landinga", "info - ", info);
+  // Funkcija za navigaciju
+  function goToPcelarPosts(id) {
+    navigate(`/pcelarPosts/${id}`);
+  }
 
   return (
     <div className="container-landing">
       <div className="beekeepers-grid">
-        {info.map((beekeeper, index) => (
-          <div
-            key={index} // Koristi index jer API verovatno ne pruža ID
-            className="beekeeper-card"
-          >
-            {profileImage && (
-              <img src={profileImage} alt="Profile" className="profile-image" />
-            )}
+        {profileImages.map((beekeeper, index) => (
+          <div key={index} className="beekeeper-card">
+            <img
+              src={beekeeper.imageLink || "/default-image.jpg"} // Ako nema slike, koristi podrazumevanu
+              alt="Profile"
+              className="profile-image"
+            />
             <div className="card-image-container">
               <img alt={beekeeper.name} className="card-image" />
             </div>
-
             <div className="card-content">
               <h2>{beekeeper.name}</h2>
               <p className="role">Pčelar</p>
-              <p className="specialty">Specijalnost nije dostupna</p>{" "}
+              <p className="specialty">Specijalnost nije dostupna</p>
               <button
-                onClick={() => goToPcelarPosts(beekeeper.id)}
+                onClick={() => goToPcelarPosts(beekeeper.userId)}
                 className="view-button"
               >
                 <span>Pregledaj</span>

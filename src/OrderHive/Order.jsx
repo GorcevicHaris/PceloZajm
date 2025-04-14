@@ -13,8 +13,11 @@ const OrderForm = () => {
     honeyExtraction: "",
     maintainingHives: "",
     admin_id: "",
+    location: "",
+    phoneNumber: "", // New phone number field
   });
-  const [dateError, setDateError] = useState(""); // Track date validation errors
+  const [dateError, setDateError] = useState("");
+  const [phoneError, setPhoneError] = useState(""); // Track phone number validation errors
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [availableHives, setAvailableHives] = useState([]);
@@ -43,10 +46,10 @@ const OrderForm = () => {
     setTotalPrice(calculatedPrice);
   }, [formData]);
 
-  // Validate dates whenever they change
+  // Validate dates and phone number whenever they change
   useEffect(() => {
     setDateError("");
-    const today = new Date().toISOString().split("T")[0]; // Today's date in YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
     const { start_date, end_date } = formData;
 
     if (start_date && start_date < today) {
@@ -58,6 +61,15 @@ const OrderForm = () => {
       setDateError("Datum završetka mora biti posle datuma početka.");
     }
   }, [formData.start_date, formData.end_date]);
+
+  // Validate phone number
+  useEffect(() => {
+    setPhoneError("");
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // Basic international phone number format
+    if (formData.phoneNumber && !phoneRegex.test(formData.phoneNumber)) {
+      setPhoneError("Unesite validan broj telefona (npr. +381123456789).");
+    }
+  }, [formData.phoneNumber]);
 
   // Fetch admin names
   useEffect(() => {
@@ -105,6 +117,19 @@ const OrderForm = () => {
       return;
     }
 
+    // Check phone number errors
+    if (phoneError) {
+      Swal.fire({
+        icon: "error",
+        title: "Nevalidan broj telefona",
+        text: phoneError,
+        confirmButtonColor: "#c62828",
+        background: "#fdf6e3",
+      });
+      setLoading(false);
+      return;
+    }
+
     // Check available hives
     const adminAvailableHives = availableHives.filter(
       (hive) => hive.hiveIDUser === parseInt(formData.admin_id)
@@ -139,6 +164,8 @@ const OrderForm = () => {
         honeyExtraction: "",
         maintainingHives: "",
         admin_id: "",
+        location: "",
+        phoneNumber: "", // Reset phone number field
       });
       setTotalPrice(0);
     } catch (err) {
@@ -224,14 +251,45 @@ const OrderForm = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="start_date">Datum pocetka</label>
+            <label htmlFor="location">Lokacija</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              placeholder="Unesi lokaciju"
+              required
+              aria-describedby="location-error"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="phoneNumber">Broj telefona</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              placeholder="Unesi broj telefona (npr. +381123456789)"
+              required
+              aria-describedby="phone-error"
+            />
+            {phoneError && (
+              <p className="error-text" id="phone-error">
+                {phoneError}
+              </p>
+            )}
+          </div>
+          <div className="form-group">
+            <label htmlFor="start_date">Datum početka</label>
             <input
               type="date"
               id="start_date"
               name="start_date"
               value={formData.start_date}
               onChange={handleChange}
-              min={new Date().toISOString().split("T")[0]} // Prevent past dates
+              min={new Date().toISOString().split("T")[0]}
               required
               aria-describedby="date-error"
             />
@@ -253,7 +311,7 @@ const OrderForm = () => {
                       .toISOString()
                       .split("T")[0]
                   : undefined
-              } // At least one day after start_date
+              }
               aria-describedby="date-error"
             />
             {dateError && (
@@ -261,6 +319,8 @@ const OrderForm = () => {
                 {dateError}
               </p>
             )}
+            Meaningful variable names improve code readability and
+            maintainability.
           </div>
           <div className="form-group">
             <label htmlFor="honeyExtraction">Ekstrakcija meda</label>
@@ -298,8 +358,8 @@ const OrderForm = () => {
           <button
             type="submit"
             className="submit-button"
-            disabled={loading || !!dateError}
-            aria-disabled={loading || !!dateError}
+            disabled={loading || !!dateError || !!phoneError}
+            aria-disabled={loading || !!dateError || !!phoneError}
           >
             {loading ? (
               <span className="loading-spinner">Slanje...</span>

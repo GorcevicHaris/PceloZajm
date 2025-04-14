@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "./Context";
 import "./Sidebar.css";
 
@@ -7,26 +7,30 @@ const Sidebar = () => {
   const { role } = useContext(Context);
 
   const menuItems = [
-    role === "admin"
+    role === "admin" || role === "creator"
       ? {
           text: "ManageOrder",
           icon: "📋",
           link: "/manageOrder",
         }
       : null,
-    role === "admin"
+    role === "admin" || role === "creator"
       ? { text: "Dashboard", icon: "📊", link: "/dashboard" }
       : null,
     { text: "User Profile", icon: "👤", link: "/profile" },
-    role === "admin" ? { text: "Admin", icon: "⚙️", link: "/hiveAdmin" } : null,
-    role === "admin"
+    role === "admin" || role === "creator"
+      ? { text: "insertHives", icon: "Ⰶ", link: "/hiveAdmin" }
+      : null,
+    role === "admin" || role === "creator"
       ? { text: "Hives", icon: "🏠", link: "/hivesEditDelete" }
       : null,
-    role === "admin"
+    role === "creator"
       ? { text: "InsertUser", icon: "➕", link: "/userForm" }
       : null,
-    role === "admin" ? { text: "Users", icon: "👥", link: "/users" } : null,
-    role !== "admin"
+    role === "admin" || role === "creator"
+      ? { text: "Users", icon: "👥", link: "/users" }
+      : null,
+    role !== "admin" && role !== "creator"
       ? { text: "OrderHive", icon: "🛒", link: "/orderHive" }
       : null,
   ].filter(Boolean);

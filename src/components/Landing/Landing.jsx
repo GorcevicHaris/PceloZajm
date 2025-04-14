@@ -50,7 +50,7 @@ function App() {
               className="profile-image"
             />
             <div className="card-image-container">
-              <img alt={beekeeper.name} className="card-image" />
+              <img className="card-image" />
             </div>
             <div className="card-content">
               <h2>{beekeeper.name}</h2>

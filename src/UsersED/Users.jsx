@@ -25,12 +25,12 @@ function Users() {
   }, []);
   console.log(role, "roleusers");
   useEffect(() => {
-    if (role !== "admin") {
+    if (role !== "admin" && role !== "creator") {
       navigate("/profile");
     }
   }, []);
 
-  if (role !== "admin") {
+  if (role !== "admin" && role !== "creator") {
     return null;
   }
 

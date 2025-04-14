@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import "./profileImage.css";
+
 const ProfileImageUpload = ({ userId }) => {
   const [cookies] = useCookies(["token"]);
   const [profileImage, setProfileImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Функција за преузимање профилне слике
+  // Fetch profile image
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get(
@@ -24,12 +25,12 @@ const ProfileImageUpload = ({ userId }) => {
     }
   };
 
-  // Ефекат за учитавање слике при монтажи
+  // Load image on mount
   useEffect(() => {
     fetchProfileImage();
   }, [userId]);
 
-  // Руковање отпремањем датотеке
+  // Handle file upload
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -59,12 +60,27 @@ const ProfileImageUpload = ({ userId }) => {
   };
 
   return (
-    <div className="profile-image-container">
-      {profileImage && (
-        <img src={profileImage} alt="Profile" className="profile-image" />
-      )}
-      <label className="upload-label">
-        {loading ? "Uploading..." : "Upload Profile Image"}
+    <div className="profile-image-card">
+      <h3 className="profile-image-title">Profilna slika</h3>
+      <div className="profile-image-wrapper">
+        {profileImage ? (
+          <img
+            src={profileImage}
+            alt="Profilna slika"
+            className="profile-image"
+          />
+        ) : (
+          <div className="profile-image-placeholder">
+            <span>Bez slike</span>
+          </div>
+        )}
+      </div>
+      <label className={`upload-button ${loading ? "disabled" : ""}`}>
+        {loading ? (
+          <span className="loading-spinner">Učitavanje...</span>
+        ) : (
+          "Učitaj sliku"
+        )}
         <input
           type="file"
           onChange={handleFileUpload}

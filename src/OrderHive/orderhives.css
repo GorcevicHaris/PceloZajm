@@ -1,135 +1,205 @@
-/* Base styles */
+/* Beehive-inspired theme */
 :root {
-  --primary-color: #000;
-  --hover-color: #218838;
-  --border-color: #ddd;
-  --text-color: #333;
-  --background-color: #fff;
-  --error-color: #dc3545;
-  --success-color: #28a745;
+  --honey-gold: #ffd700;
+  --amber: #ffca28;
+  --dark-brown: #3c2f2f;
+  --light-honey: #fff8e1;
+  --medium-honey: #fef9e7;
+  --success-green: #388e3c;
+  --error-red: #d32f2f;
+  --border-color: #bcaaa4;
   --sidebar-width: 280px;
 }
 
-.order-hives {
-  font-family: Arial, sans-serif;
-  padding: 2rem;
-  max-width: calc(100% - var(--sidebar-width));
-  margin-left: var(--sidebar-width);
-  box-sizing: border-box;
-  background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+.order-hives-container {
   min-height: 100vh;
+  background: linear-gradient(135deg, var(--light-honey), var(--medium-honey));
+  padding: 2rem;
+  margin-left: var(--sidebar-width);
+  max-width: calc(100% - var(--sidebar-width));
+  font-family: "Arial", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.order-hives h1 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: var(--text-color);
-}
-
-.order-hives p {
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-/* Form styles */
-.order-form {
-  background: var(--background-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+.order-hives-card {
+  background: #ffffff;
+  border-radius: 12px;
   padding: 2rem;
   max-width: 600px;
-  margin: 2rem auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--honey-gold);
+  position: relative;
+  overflow: hidden;
 }
 
-.order-form > div {
+.order-hives-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 10% 10%,
+    rgba(255, 215, 0, 0.1),
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.order-hives-title {
+  font-size: 2rem;
+  color: var(--dark-brown);
+  text-align: center;
   margin-bottom: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.order-form label {
-  display: block;
+.order-hives-info {
+  background: var(--medium-honey);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.order-hives-info p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: var(--dark-brown);
+}
+
+.order-hives-info span {
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.order-hives-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: var(--dark-brown);
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: var(--text-color);
 }
 
-.order-form input,
-.order-form select {
-  width: 100%;
+.form-group input,
+.form-group select {
   padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
   font-size: 1rem;
-  transition: border-color 0.2s ease;
+  background: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.order-form input:focus,
-.order-form select:focus {
+.form-group input:focus,
+.form-group select:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--honey-gold);
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
 }
 
-.order-form button {
-  width: 100%;
+.availability-text {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--dark-brown);
+}
+
+.availability-text span {
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.total-price {
+  text-align: center;
   padding: 1rem;
-  background-color: var(--primary-color);
+  background: var(--medium-honey);
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.total-price p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--dark-brown);
+}
+
+.total-price span {
+  font-weight: 700;
+  color: var(--amber);
+}
+
+.submit-button {
+  padding: 1rem;
+  background: var(--success-green);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.order-form button:hover {
-  background-color: var(--hover-color);
+.submit-button:hover:not(:disabled) {
+  background: #2e7d32;
+  transform: scale(1.02);
 }
 
-/* Success and error messages */
-.order-form p[style*="color: green"] {
-  color: var(--success-color) !important;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-  background-color: rgba(40, 167, 69, 0.1);
+.submit-button:disabled {
+  background: #a5d6a7;
+  cursor: not-allowed;
 }
 
-.order-form p[style*="color: red"] {
-  color: var(--error-color) !important;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-  background-color: rgba(220, 53, 69, 0.1);
+.loading-spinner::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
 }
 
-/* Select container styles */
-.select-container {
-  margin-bottom: 1.5rem;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.select-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: var(--background-color);
-}
-
-/* Responsive breakpoints matching sidebar */
+/* Responsive design */
 @media screen and (max-width: 1024px) {
   :root {
     --sidebar-width: 240px;
   }
-  
-  .order-hives {
-    max-width: calc(100% - var(--sidebar-width));
+
+  .order-hives-container {
     margin-left: var(--sidebar-width);
+    max-width: calc(100% - var(--sidebar-width));
     padding: 1.5rem;
   }
-  
-  .order-form {
+
+  .order-hives-card {
     padding: 1.75rem;
   }
 }
@@ -138,72 +208,94 @@
   :root {
     --sidebar-width: 80px;
   }
-  
-  .order-hives {
-    max-width: calc(100% - var(--sidebar-width));
+
+  .order-hives-container {
     margin-left: var(--sidebar-width);
+    max-width: calc(100% - var(--sidebar-width));
     padding: 1rem;
   }
 
-  .order-hives h1 {
+  .order-hives-title {
     font-size: 1.75rem;
   }
-  
-  .order-form {
-    padding: 1.25rem;
-    margin: 1rem auto;
+
+  .order-hives-card {
+    padding: 1.5rem;
   }
-  
-  .order-form input,
-  .order-form select,
-  .order-form button {
-    padding: 0.625rem;
+
+  .order-hives-info p {
+    font-size: 0.95rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.65rem;
+  }
+
+  .submit-button {
+    padding: 0.85rem;
   }
 }
 
 @media screen and (max-width: 576px) {
-  .order-hives {
+  .order-hives-container {
     padding: 0.75rem;
   }
-  
-  .order-hives h1 {
+
+  .order-hives-title {
     font-size: 1.5rem;
   }
-  
-  .order-form {
-    padding: 1rem;
-    border-radius: 6px;
+
+  .order-hives-card {
+    padding: 1.25rem;
+    border-width: 1px;
   }
-  
-  .order-form > div {
-    margin-bottom: 1rem;
+
+  .order-hives-info {
+    padding: 0.75rem;
   }
-  
-  .order-form label {
-    font-size: 0.875rem;
+
+  .form-group label {
+    font-size: 0.9rem;
   }
-  
-  .order-form input,
-  .order-form select,
-  .select-input {
-    font-size: 0.875rem;
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.9rem;
+  }
+
+  .total-price p {
+    font-size: 1.1rem;
+  }
+
+  .submit-button {
+    font-size: 0.95rem;
   }
 }
 
 @media screen and (max-width: 375px) {
-  .order-hives {
+  .order-hives-container {
     padding: 0.5rem;
   }
-  
-  .order-hives h1 {
-    font-size: 1.25rem;
+
+  .order-hives-title {
+    font-size: 1.3rem;
   }
-  
-  .order-form {
-    padding: 0.75rem;
+
+  .order-hives-card {
+    padding: 1rem;
   }
-  
-  .order-form p {
-    font-size: 0.875rem;
+
+  .order-hives-info p {
+    font-size: 0.85rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.6rem;
   }
 }

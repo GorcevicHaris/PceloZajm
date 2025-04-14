@@ -1,27 +1,122 @@
-.profile-image-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+.profile-image-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #fff8e1, #fef9e7); /* Honey-inspired gradient */
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+  margin: 2rem auto;
+  transition: transform 0.2s ease-in-out;
+}
+
+.profile-image-card:hover {
+  transform: translateY(-4px);
+}
+
+.profile-image-title {
+  font-size: 1.5rem;
+  color: #3c2f2f; /* Dark brown, bee-like */
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.profile-image-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.profile-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ffd700; /* Golden border */
+  transition: border-color 0.3s ease;
+}
+
+.profile-image:hover {
+  border-color: #ffca28; /* Lighter gold on hover */
+}
+
+.profile-image-placeholder {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background-color: #f0e4d7; /* Light honey color */
+  border: 4px dashed #bcaaa4; /* Soft brown dashed border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6d4c41;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.upload-button {
+  background-color: #4caf50; /* Green, matches your original */
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-button:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+.upload-button.disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-spinner::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #ffd700;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .profile-image-card {
+    padding: 1.5rem;
+    max-width: 280px;
   }
-  
-  .upload-label {
-    padding: 0.5rem 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+
+  .profile-image,
+  .profile-image-placeholder {
+    width: 120px;
+    height: 120px;
   }
-  
-  .upload-label:hover {
-    background-color: #45a049;
+
+  .profile-image-title {
+    font-size: 1.3rem;
   }
+
+  .upload-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}

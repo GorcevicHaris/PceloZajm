@@ -1,34 +1,53 @@
 import { createContext, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+//izmenili smo umesto local storage da bude cookie istu stvar radi ali bezbedni je
+// umesto localstorage get i set imamo sad cookies.get i uzimamo token
 const Context = createContext();
+
 function ContextProvider({ children }) {
-  const [userId, setUserId] = useState(
-    localStorage.getItem("token")
-      ? jwtDecode(localStorage.getItem("token")).userId
-      : ""
-  );
-  const [role, setRole] = useState(
-    localStorage.getItem("token")
-      ? jwtDecode(localStorage.getItem("token")).role
-      : ""
-  );
+  const [userId, setUserId] = useState(() => {
+    try {
+      const token = Cookies.get("token");
+      return token ? jwtDecode(token).userId : "";
+    } catch {
+      return "";
+    }
+  });
+  const [role, setRole] = useState(() => {
+    try {
+      const token = Cookies.get("token");
+      return token ? jwtDecode(token).role : "";
+    } catch {
+      return "";
+    }
+  });
+  const [name, setName] = useState(() => {
+    try {
+      const token = Cookies.get("token");
+      return token ? jwtDecode(token).userName : "";
+    } catch {
+      return "";
+    }
+  });
   const [hiveID, setHiveId] = useState();
   const [pricePerHive, setPricePerHive] = useState(1);
-  const [name, setName] = useState("");
+
   function login(token) {
-    localStorage.setItem("token", token);
-    console.log(token, "token");
+    // No need to set cookie here; backend handles it
     const user = jwtDecode(token);
-    console.log(user, "toksen");
     setRole(user.role);
     setName(user.userName);
     setUserId(user.userId);
   }
+
   function logout() {
-    localStorage.removeItem("token");
+    Cookies.remove("token");
     setRole("");
     setUserId("");
+    setName("");
   }
+
   return (
     <Context.Provider
       value={{
@@ -49,5 +68,6 @@ function ContextProvider({ children }) {
     </Context.Provider>
   );
 }
+
 export { Context };
 export default ContextProvider;

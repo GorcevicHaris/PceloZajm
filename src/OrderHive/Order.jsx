@@ -224,7 +224,7 @@ const OrderForm = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="start_date">Datum početka</label>
+            <label htmlFor="start_date">Datum pocetka</label>
             <input
               type="date"
               id="start_date"

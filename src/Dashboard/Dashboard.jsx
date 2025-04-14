@@ -135,7 +135,11 @@ const ImageUpload = () => {
                 id="file-input"
                 accept="image/*"
               />
-              <label htmlFor="file-input" className="file-input-label">
+              <label
+                style={{ cursor: "pointer" }}
+                htmlFor="file-input"
+                className="file-input-label"
+              >
                 Choose File
               </label>
               {file && <span className="file-name">{file.name}</span>}

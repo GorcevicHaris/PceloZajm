@@ -54,18 +54,18 @@ h2 {
   display: none;
 }
 
-.file-input-label {
+/* .file-input-label {
   background: #f0f0f0;
   padding: 12px 24px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
   font-weight: 600;
-}
+} */
 
-.file-input-label:hover {
+/* .file-input-label:hover {
   background: #e0e0e0;
-}
+} */
 
 .file-name {
   color: #666;

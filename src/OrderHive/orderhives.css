@@ -90,12 +90,12 @@
   flex-direction: column;
 }
 
-.form-group label {
+/* .form-group label {
   font-size: 1rem;
   color: var(--dark-brown);
   margin-bottom: 0.5rem;
   font-weight: 500;
-}
+} */
 
 .form-group input,
 .form-group select {

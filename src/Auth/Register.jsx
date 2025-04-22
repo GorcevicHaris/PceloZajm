@@ -5,21 +5,14 @@ import axios from "axios";
 function Register() {
   axios.defaults.withCredentials = true;
 
-  function postData() {
-    axios
-      .post("http://localhost:4005/api/register", values)
-      .then((res) => {
-        navigate("/login");
-        console.log(res);
-      })
-      .catch((err) => console.log(err, "error"));
-  }
   const [values, setValues] = useState({
     name: "",
     email: "",
     password: "",
     phone_number: 0,
     role: "",
+    description: "",
+    expirience: "",
   });
   let auth = document.cookie;
   console.log(auth, "auth");
@@ -28,6 +21,24 @@ function Register() {
       navigate("/profile");
     }
   }, []);
+
+  function postData() {
+    const role =
+      values.description.trim() === "" || values.expirience.trim() === ""
+        ? "user"
+        : "beekeeper";
+
+    const dataToSend = { ...values, role };
+
+    axios
+      .post("http://localhost:4005/api/register", dataToSend)
+      .then((res) => {
+        console.log(res);
+        navigate("/login");
+      })
+      .catch((err) => console.log(err, "error"));
+  }
+
   console.log(values);
   const navigate = useNavigate();
   return (
@@ -71,20 +82,20 @@ function Register() {
             placeholder="Enter your phone_number"
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Role</label>
           <select
             onChange={(e) => setValues({ ...values, role: e.target.value })}
           >
-            <option></option>
+            <option disabled>pick role</option>
             <option>admin</option>
             <option>user</option>
           </select>
-        </div>
+        </div> */}
         <button onClick={postData} type="button">
           Register
         </button>
-        <button onClick={() => navigate("/registerAsBeekeeper")}>
+        <button type="button" onClick={() => navigate("/registerAsBeekeeper")}>
           Register As Beekeeper
         </button>
         <label

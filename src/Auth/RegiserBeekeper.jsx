@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./registerBeekeeper.css";
+import "./reglog.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -12,17 +12,24 @@ function RegisterAsBeekeper() {
     password: "",
     phone_number: "",
     role: "",
-    experience: "",
+    expirience: "",
     description: "",
   });
 
   const navigate = useNavigate();
 
   function postData() {
+    const role =
+      values.description.trim() === "" || values.expirience.trim() === ""
+        ? "user"
+        : "beekeeper"; // Postavljamo role kao "beekeeper" za pčelara
+
+    const dataToSend = { ...values, role }; // Dodajemo role u podatke
+
     axios
-      .post("http://localhost:4005/api/register", values)
+      .post("http://localhost:4005/api/register", dataToSend)
       .then((res) => {
-        navigate("/login");
+        navigate("/login"); // Preusmeravanje nakon uspešne registracije
         console.log(res);
       })
       .catch((err) => console.log(err, "error"));
@@ -80,14 +87,14 @@ function RegisterAsBeekeper() {
           />
         </div>
         <div className="form-group">
-          <label>Years of Experience</label>
+          <label>Years of expirience</label>
           <input
             onChange={(e) =>
-              setValues({ ...values, experience: e.target.value })
+              setValues({ ...values, expirience: e.target.value })
             }
             type="number"
             min="0"
-            placeholder="Years of beekeeping experience"
+            placeholder="Years of beekeeping expirience"
             required
           />
         </div>
@@ -97,12 +104,12 @@ function RegisterAsBeekeper() {
             onChange={(e) =>
               setValues({ ...values, description: e.target.value })
             }
-            placeholder="Tell us about your beekeeping experience..."
+            placeholder="Tell us about your beekeeping expirience..."
             rows="4"
             required
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Role</label>
           <select
             onChange={(e) => setValues({ ...values, role: e.target.value })}
@@ -112,7 +119,7 @@ function RegisterAsBeekeper() {
             <option value="admin">Admin</option>
             <option value="user">User</option>
           </select>
-        </div>
+        </div> */}
         <button onClick={postData} type="button" className="register-btn">
           Register
         </button>

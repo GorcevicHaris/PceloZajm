@@ -6,23 +6,37 @@ import { Context } from "../Context";
 const AdminOrders = () => {
   const [availableHives, setAvailableHives] = useState([]);
   const [filteredPendingOrders, setFilteredPendingOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { userId } = useContext(Context);
 
   useEffect(() => {
     function getOrders() {
+      setLoading(true);
       axios
         .get("http://localhost:4005/api/getOrders", {
           params: { admin_id: userId },
         })
         .then((res) => {
-          console.log(res.data, "pending", "asljdhasjkdhasd");
           setFilteredPendingOrders(
-            res.data.filter((el) => el.status == "pending")
+            res.data.filter((el) => el.status === "pending")
           );
         })
-        .catch((err) => console.log(err, "gresk"));
+        .catch((err) => console.log(err, "gresk"))
+        .finally(() => setLoading(false));
     }
     getOrders();
+  }, [userId]);
+
+  useEffect(() => {
+    function getAvailableHives() {
+      axios
+        .get("http://localhost:4005/api/totalAvailableHives")
+        .then((res) => {
+          setAvailableHives(res.data);
+        })
+        .catch((err) => console.error("Error fetching hives:", err));
+    }
+    getAvailableHives();
   }, []);
 
   function approveOrder(orderId, quantityHive) {
@@ -33,7 +47,7 @@ const AdminOrders = () => {
         admin_id: userId,
       })
       .then((res) => {
-        alert("Order approved successfully!");
+        alert("Narudžbina uspešno prihvaćena!");
         setFilteredPendingOrders((prevOrders) =>
           prevOrders.filter((order) => order.id !== orderId)
         );
@@ -42,20 +56,10 @@ const AdminOrders = () => {
         console.error("Error approving order:", err);
         const availableHives = err.response?.data?.availableHives || 0;
         alert(
-          `Order cannot be approved. There are only ${availableHives} hives available for this admin.`
+          `Narudžbina ne može biti prihvaćena. Dostupno je samo ${availableHives} košnica za ovog admina.`
         );
       });
   }
-
-  useEffect(() => {
-    function getAvailableHives() {
-      axios.get("http://localhost:4005/api/totalAvailableHives").then((res) => {
-        setAvailableHives(res.data);
-        console.log(res.data, "available kosnice");
-      });
-    }
-    getAvailableHives();
-  }, []);
 
   function declineDelete(id, user_id) {
     axios
@@ -63,64 +67,74 @@ const AdminOrders = () => {
         data: { id: id, user_id: user_id },
       })
       .then((res) => {
-        console.log(res, "rrrrr");
         setFilteredPendingOrders((prev) =>
           prev.filter((data) => data.id !== id)
         );
-      });
+        alert("Narudžbina uspešno odbijena!");
+      })
+      .catch((err) => console.error("Error declining order:", err));
   }
-  console.log(filteredPendingOrders, "filtrirani niz");
+
   return (
-    <div>
+    <div className="admin-orders-container">
       <h1>Pending Orders</h1>
-      <div className="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Quantity</th>
-              <th>Maintaining Hives</th>
-              <th>Honey Extraction</th>
-              <th>Actions</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredPendingOrders.map((order) => (
-              <tr key={order.id}>
-                <td data-label="Order ID">{order.id}</td>
-                <td data-label="Name">{order.userName}</td>
-                <td data-label="Status">{order.status}</td>
-                <td data-label="Start Date">{order.start_date}</td>
-                <td data-label="End Date">{order.end_date}</td>
-                <td data-label="Quantity">{order.quantityHive}</td>
-                <td data-label="Maintaining Hives">
-                  {order.Maintaining_hives}
-                </td>
-                <td data-label="Honey Extraction">{order.Honey_extraction}</td>
-                <td data-label="Action">
-                  <button
-                    onClick={() => approveOrder(order.id, order.quantityHive)}
-                  >
-                    Accept
-                  </button>
-                </td>
-                <td data-label="Action">
-                  <button
-                    onClick={() => declineDelete(order.id, order.user_id)}
-                  >
-                    Decline
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {loading ? (
+        <div className="loading">Učitavanje narudžbina...</div>
+      ) : filteredPendingOrders.length === 0 ? (
+        <div className="no-orders">Nema narudžbina na čekanju.</div>
+      ) : (
+        <div className="orders-grid">
+          {filteredPendingOrders.map((order) => (
+            <div key={order.id} className="order-card">
+              <h3>Narudžbina #{order.id}</h3>
+              <div className="order-details">
+                <p>
+                  <span>Ime:</span> {order.userName}
+                </p>
+                <p>
+                  <span>Status:</span> {order.status}
+                </p>
+                <p>
+                  <span>Početak:</span> {order.start_date}
+                </p>
+                <p>
+                  <span>Kraj:</span> {order.end_date}
+                </p>
+                <p>
+                  <span>Količina:</span> {order.quantityHive}
+                </p>
+                <p>
+                  <span>Održavanje:</span> {order.Maintaining_hives}
+                </p>
+                <p>
+                  <span>Ekstrakcija:</span> {order.Honey_extraction}
+                </p>
+                <p>
+                  <span>Telefon:</span> {order.phoneNumber}
+                </p>
+                <p>
+                  <span>Lokacija:</span> {order.location}
+                </p>
+              </div>
+              <div className="order-actions">
+                <button
+                  onClick={() => approveOrder(order.id, order.quantityHive)}
+                  aria-label={`Prihvati narudžbinu ${order.id}`}
+                >
+                  Prihvati
+                </button>
+                <button
+                  onClick={() => declineDelete(order.id, order.user_id)}
+                  className="decline"
+                  aria-label={`Odbij narudžbinu ${order.id}`}
+                >
+                  Odbij
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

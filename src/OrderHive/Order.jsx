@@ -1,9 +1,25 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import "./orderhives.css";
 import { Context } from "../Context";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import L from "leaflet";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import "leaflet/dist/leaflet.css";
+
+// Fix Leaflet default marker icon
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
 const OrderForm = () => {
   const [formData, setFormData] = useState({
@@ -13,17 +29,20 @@ const OrderForm = () => {
     honeyExtraction: "",
     maintainingHives: "",
     admin_id: "",
-    location: "",
-    phoneNumber: "", // New phone number field
+    location: "", // Stores coordinates as "lat,lng"
+    phoneNumber: "",
   });
   const [dateError, setDateError] = useState("");
-  const [phoneError, setPhoneError] = useState(""); // Track phone number validation errors
+  const [phoneError, setPhoneError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [availableHives, setAvailableHives] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const { userId, role } = useContext(Context);
   const [nameOfadmin, setNameOfAdmin] = useState([]);
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const mapRef = useRef(null); // Reference to the map instance
   const HIVE_RENTAL_PRICE = 30;
   const EXTRACTION_COST = 2;
   const MAINTAINING_COST = 4;
@@ -46,7 +65,7 @@ const OrderForm = () => {
     setTotalPrice(calculatedPrice);
   }, [formData]);
 
-  // Validate dates and phone number whenever they change
+  // Validate dates
   useEffect(() => {
     setDateError("");
     const today = new Date().toISOString().split("T")[0];
@@ -65,7 +84,7 @@ const OrderForm = () => {
   // Validate phone number
   useEffect(() => {
     setPhoneError("");
-    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // Basic international phone number format
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/;
     if (formData.phoneNumber && !phoneRegex.test(formData.phoneNumber)) {
       setPhoneError("Unesite validan broj telefona (npr. +381123456789).");
     }
@@ -77,7 +96,6 @@ const OrderForm = () => {
       .get("http://localhost:4005/api/getAdminNames")
       .then((res) => {
         setNameOfAdmin(res.data);
-        console.log(res.data, "provera imena od admina da li je tu creator");
       })
       .catch((err) => console.error("Error fetching admins:", err));
   }, []);
@@ -88,7 +106,6 @@ const OrderForm = () => {
       .get("http://localhost:4005/api/totalAvailableHives")
       .then((res) => {
         setAvailableHives(res.data);
-        console.log(res.data, "ovo su slobodne kosnice");
       })
       .catch((err) => console.error("Error fetching hives:", err));
   }, []);
@@ -99,12 +116,70 @@ const OrderForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // Component to handle map events
+  const MapEvents = () => {
+    const map = useMap();
+    mapRef.current = map; // Store map instance in ref
+
+    map.on("click", (e) => {
+      const { lat, lng } = e.latlng;
+      setMarkerPosition([lat, lng]);
+      setFormData({ ...formData, location: `${lat},${lng}` });
+      map.flyTo([lat, lng], 13);
+    });
+
+    // Update map view when markerPosition changes
+    useEffect(() => {
+      if (markerPosition) {
+        map.flyTo(markerPosition, 13, { animate: true });
+      }
+    }, [markerPosition, map]);
+
+    return null;
+  };
+
+  // Handle search
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!searchQuery) return;
+
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+          searchQuery
+        )}&format=json&limit=1`
+      );
+      if (response.data && response.data.length > 0) {
+        const { lat, lon } = response.data[0];
+        const newPosition = [parseFloat(lat), parseFloat(lon)];
+        setMarkerPosition(newPosition);
+        setFormData({ ...formData, location: `${lat},${lon}` });
+        // Map will automatically update due to useEffect in MapEvents
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Lokacija nije pronađena",
+          text: "Molimo unesite važeću lokaciju, npr. 'Novi Pazar Vojnice'.",
+          confirmButtonColor: "#c62828",
+          background: "#fdf6e3",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Greška pri pretrazi",
+        text: "Došlo je do problema prilikom pretrage lokacije.",
+        confirmButtonColor: "#c62828",
+        background: "#fdf6e3",
+      });
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Check date errors
     if (dateError) {
       Swal.fire({
         icon: "error",
@@ -117,7 +192,6 @@ const OrderForm = () => {
       return;
     }
 
-    // Check phone number errors
     if (phoneError) {
       Swal.fire({
         icon: "error",
@@ -130,7 +204,18 @@ const OrderForm = () => {
       return;
     }
 
-    // Check available hives
+    if (!formData.location) {
+      Swal.fire({
+        icon: "error",
+        title: "Lokacija nije izabrana",
+        text: "Molimo izaberite lokaciju na mapi ili putem pretrage.",
+        confirmButtonColor: "#c62828",
+        background: "#fdf6e3",
+      });
+      setLoading(false);
+      return;
+    }
+
     const adminAvailableHives = availableHives.filter(
       (hive) => hive.hiveIDUser === parseInt(formData.admin_id)
     );
@@ -165,9 +250,11 @@ const OrderForm = () => {
         maintainingHives: "",
         admin_id: "",
         location: "",
-        phoneNumber: "", // Reset phone number field
+        phoneNumber: "",
       });
       setTotalPrice(0);
+      setMarkerPosition(null);
+      setSearchQuery("");
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -251,14 +338,45 @@ const OrderForm = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="location">Lokacija</label>
+            <label>Lokacija</label>
+            <div className="search-container">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Pretraži lokaciju (npr. Novi Pazar Vojnice)"
+                className="search-input"
+              />
+              <button
+                type="button"
+                onClick={handleSearch}
+                className="search-button"
+              >
+                Pretraži
+              </button>
+            </div>
+            <div className="map-container">
+              <MapContainer
+                center={[44.7866, 20.4489]} // Default center (Belgrade)
+                zoom={13}
+                style={{ height: "300px", width: "100%" }}
+                ref={mapRef}
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
+                {markerPosition && <Marker position={markerPosition} />}
+                <MapEvents />
+              </MapContainer>
+            </div>
             <input
               type="text"
               id="location"
               name="location"
               value={formData.location}
-              onChange={handleChange}
-              placeholder="Unesi lokaciju"
+              readOnly
+              placeholder="Koordinate će biti izabrane na mapi ili pretragom"
               required
               aria-describedby="location-error"
             />
@@ -319,8 +437,6 @@ const OrderForm = () => {
                 {dateError}
               </p>
             )}
-            Meaningful variable names improve code readability and
-            maintainability.
           </div>
           <div className="form-group">
             <label htmlFor="honeyExtraction">Ekstrakcija meda</label>

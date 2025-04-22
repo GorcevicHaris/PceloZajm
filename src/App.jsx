@@ -19,6 +19,7 @@ import DashBoard from "./Dashboard/Dashboard";
 import PcelarsPosts from "./PcelarPosts/PcelarsPosts";
 import Contact from "./Pages/Home/Contact";
 import About from "./Pages/About";
+import RegisterAsBeekeper from "./Auth/RegiserBeekeper";
 const LandingGuard = () => {
   const { userId } = useContext(Context);
   return userId ? <Navigate to="/dashboard" replace /> : <Landing />;
@@ -41,6 +42,7 @@ function App() {
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/manageOrder" element={<ManageOrder />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/registerAsBeekeeper" element={<RegisterAsBeekeper />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/about" element={<About />} />
           <Route path="/" element={<LandingGuard />} />

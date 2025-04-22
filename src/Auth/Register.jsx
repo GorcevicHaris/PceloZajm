@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./reglog.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 function Register() {
   axios.defaults.withCredentials = true;
@@ -83,6 +83,9 @@ function Register() {
         </div>
         <button onClick={postData} type="button">
           Register
+        </button>
+        <button onClick={() => navigate("/registerAsBeekeeper")}>
+          Register As Beekeeper
         </button>
         <label
           onClick={() => navigate("/login")}

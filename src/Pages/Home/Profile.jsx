@@ -32,7 +32,10 @@ function HomePage() {
       <h2>Your Profile</h2>
       <ProfileImageUpload userId={userId} />
       {name}
-      <button style={{ backgroundColor: "red" }} onClick={handleLogout}>
+      <button
+        style={{ backgroundColor: "red", width: "100px" }}
+        onClick={handleLogout}
+      >
         Logout
       </button>
     </div>

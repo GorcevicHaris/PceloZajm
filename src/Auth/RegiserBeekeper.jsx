@@ -34,6 +34,7 @@ function RegisterAsBeekeper() {
       })
       .catch((err) => console.log(err, "error"));
   }
+  //
 
   let auth = document.cookie;
 

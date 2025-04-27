@@ -9,7 +9,6 @@ function App() {
   const { userId } = useContext(Context);
   const [profileImages, setProfileImages] = useState([]);
   const navigate = useNavigate();
-
   // Učitavanje svih profilnih slika i informacija o pčelarima
   useEffect(() => {
     const fetchAllProfileImages = async () => {
@@ -18,6 +17,7 @@ function App() {
           "http://localhost:4005/api/getAllProfileImages"
         );
         if (response?.data) {
+          console.log(response.data, "resssss");
           setProfileImages(response.data); // Čuva sve podatke o pčelarima
         }
       } catch (error) {

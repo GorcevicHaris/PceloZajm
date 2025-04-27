@@ -5,24 +5,23 @@ import "./pcelarposts.css";
 import { Context } from "../Context";
 
 function PcelarsPosts() {
-  const { id } = useParams(); // Preuzimanje ID-a iz URL-a
-  const [data, setData] = useState([]); // Postovi
-  const [userInfo, setUserInfo] = useState(null); // Podaci o korisniku (objekat, ne niz)
-  const [loading, setLoading] = useState(true); // Čeka oba API poziva
+  const { id } = useParams();
+  const [data, setData] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { role } = useContext(Context);
   const navigate = useNavigate();
 
-  // Preusmeravanje ako nema ID-a
+  // Redirect if no ID
   useEffect(() => {
     if (!id) {
       navigate("/");
     }
-  }, [id]);
+  }, [id, navigate]);
 
-  // Dohvatanje podataka (postovi i podaci o korisniku)
+  // Fetch posts and user info
   useEffect(() => {
-    console.log("Fetching data for ID:", id, "Role:", role); // Debagovanje
     const fetchData = async () => {
       try {
         const [imagesResponse, userResponse] = await Promise.all([
@@ -33,7 +32,7 @@ function PcelarsPosts() {
             params: { user_id: id, role: role },
           }),
         ]);
-        console.log(userResponse.data, "informations of <users>");
+        console.log(imagesResponse, "img response");
         setData(imagesResponse.data);
         setUserInfo(userResponse.data);
         setLoading(false);
@@ -43,43 +42,52 @@ function PcelarsPosts() {
           error.message,
           error.response?.data
         );
-        setError("Greška prilikom preuzimanja podataka.");
+        setError("Failed to load data. Please try again later.");
         setLoading(false);
       }
     };
     fetchData();
   }, [id, role]);
-  //
-  if (loading) return <p>Učitavanje...</p>;
-  if (error) return <p>{error}</p>;
+
+  if (loading) return <p className="loading">Loading...</p>;
+  if (error) return <p className="error">{error}</p>;
 
   return (
     <div className="pcelar-posts">
-      <h1>Postovi pčelara {userInfo?.name || "Nepoznat pčelar"}</h1>
+      <h1>Posts by {userInfo?.name || "Unknown Beekeeper"}</h1>
       {userInfo && (
         <div className="beekeeper-info">
           <img
             src={userInfo.profile_image || "/default-image.jpg"}
-            alt="Profile"
+            alt={`${userInfo.name}'s profile`}
             className="profile-image"
           />
-          <p>Opis: {userInfo.description || "Nije dostupno"}</p>
-          <p>Iskustvo: {userInfo.experience || "Nije dostupno"}</p>
+          <p>
+            <strong>Name:</strong> {userInfo.name || "Not available"}
+          </p>
+          <p>
+            <strong>Description:</strong>{" "}
+            {userInfo.description || "Not available"}
+          </p>
+          <p>
+            <strong>Experience:</strong>{" "}
+            {userInfo.expirience || "Not available"}
+          </p>
         </div>
       )}
       {data.length === 0 ? (
-        <p>Nema postova za ovog pčelara.</p>
+        <p className="no-posts">No posts available for this beekeeper.</p>
       ) : (
         data.map((post, index) => (
           <div key={index} className="post-card">
             <img
               src={post.url}
-              alt={`Slika ${index + 1}`}
+              alt={`Post ${index + 1}`}
               className="post-image"
             />
             <div className="post-content">
               <h2>Post {index + 1}</h2>
-              <p>Opis nije dostupan.</p>
+              <p>{post.description || "No description available."}</p>
             </div>
           </div>
         ))

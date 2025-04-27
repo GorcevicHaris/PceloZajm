@@ -144,14 +144,15 @@ const ImageUpload = () => {
               </label>
               {file && <span className="file-name">{file.name}</span>}
             </div>
-            {/* 
-            <button
-              onClick={handleUpload}
-              className={`upload-button ${isUploading ? "uploading" : ""}`}
-              disabled={!file || isUploading}
-            >
-              {isUploading ? "Uploading..." : "Upload Image"}
-            </button> */}
+            {
+              <button
+                onClick={handleUpload}
+                className={`upload-button ${isUploading ? "uploading" : ""}`}
+                disabled={!file || isUploading}
+              >
+                {isUploading ? "Uploading..." : "Upload Image"}
+              </button>
+            }
           </div>
 
           {previewUrl && (

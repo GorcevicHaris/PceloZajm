@@ -7,30 +7,30 @@ const Sidebar = () => {
   const { role } = useContext(Context);
 
   const menuItems = [
-    role === "admin" || role === "creator"
+    role === "beekeeper" || role === "creator"
       ? {
           text: "ManageOrder",
           icon: "📋",
           link: "/manageOrder",
         }
       : null,
-    role === "admin" || role === "creator"
+    role === "beekeeper" || role === "creator"
       ? { text: "Dashboard", icon: "📊", link: "/dashboard" }
       : null,
     { text: "User Profile", icon: "👤", link: "/profile" },
-    role === "admin" || role === "creator"
-      ? { text: "insertHives", icon: "Ⰶ", link: "/hiveAdmin" }
+    role === "beekeeper" || role === "creator"
+      ? { text: "insertHives", icon: "Ⰶ", link: "/hivebeekeeper" }
       : null,
-    role === "admin" || role === "creator"
+    role === "beekeeper" || role === "creator"
       ? { text: "Hives", icon: "🏠", link: "/hivesEditDelete" }
       : null,
     role === "creator"
       ? { text: "InsertUser", icon: "➕", link: "/userForm" }
       : null,
-    role === "admin" || role === "creator"
+    role === "beekeeper" || role === "creator"
       ? { text: "Users", icon: "👥", link: "/users" }
       : null,
-    role !== "admin" && role !== "creator"
+    role !== "beekeeper" && role !== "creator"
       ? { text: "OrderHive", icon: "🛒", link: "/orderHive" }
       : null,
   ].filter(Boolean);
@@ -43,7 +43,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="sidebar-header">
         <span className="logo-icon">🐝</span>
-        <h2 style={{ color: "black" }}>Bee Admin</h2>
+        <h2 style={{ color: "black" }}>Beekeeper</h2>
       </div>
       <nav className="sidebar-nav">
         {menuItems.map((item, index) => (

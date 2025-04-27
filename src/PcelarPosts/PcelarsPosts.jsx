@@ -35,6 +35,25 @@ function PcelarsPosts() {
         });
     }
   }, [id]);
+  useEffect(() => {
+    if (id) {
+      // API poziv sa query parametrom user_id
+      axios
+        .get(`http://localhost:4005/api/getImages`, {
+          params: { user_id: id },
+        })
+        .then((res) => {
+          console.log(res.data, "mis mis mis");
+          setData(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError("Greška prilikom preuzimanja podataka.");
+          setLoading(false);
+        });
+    }
+  }, [id]);
   console.log(data[0]?.name, "pregled");
   if (loading) return <p>Učitavanje...</p>;
   if (error) return <p>{error}</p>;

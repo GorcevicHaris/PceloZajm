@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./header.css";
 import { Context } from "../Context";
@@ -6,7 +6,14 @@ import { Context } from "../Context";
 function Header() {
   const navigate = useNavigate();
   const { userId } = useContext(Context);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   console.log(userId, "userid");
+
   if (!userId) {
     return (
       <header className="header">
@@ -15,29 +22,48 @@ function Header() {
             🐝 Pčelarstvo
           </h1>
         </div>
-        <nav className="header-nav">
+
+        <div className="menu-icon" onClick={toggleMenu}>
+          <div className={`hamburger ${isMenuOpen ? "active" : ""}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <nav className={`header-nav ${isMenuOpen ? "active" : ""}`}>
           <ul>
             <li>
-              <Link to="/">Početna</Link>
+              <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                Početna
+              </Link>
             </li>
             <li>
-              <Link to="/about">O nama</Link>
+              <Link to="/about" onClick={() => setIsMenuOpen(false)}>
+                O nama
+              </Link>
             </li>
             <li>
-              <Link to="/products">Proizvodi</Link>
+              <Link to="/products" onClick={() => setIsMenuOpen(false)}>
+                Proizvodi
+              </Link>
             </li>
             <li>
-              <Link to="/contact">Kontakt</Link>
+              <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
+                Kontakt
+              </Link>
             </li>
             <li>
-              <Link to="/login">Prijava</Link>
+              <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                Prijava
+              </Link>
             </li>
           </ul>
         </nav>
       </header>
     );
   } else {
-    return 0;
+    return null;
   }
 }
 

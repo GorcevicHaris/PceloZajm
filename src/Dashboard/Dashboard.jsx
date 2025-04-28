@@ -92,7 +92,7 @@ const ImageUpload = () => {
       alert("Please select a file first.");
       return;
     }
-
+    console.log(isUploading, "da ili ne");
     try {
       setIsUploading(true);
       const compressedFile = await compressImage(file);

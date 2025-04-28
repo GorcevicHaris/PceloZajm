@@ -52,7 +52,7 @@ function PcelarsPosts() {
 
     fetchData();
   }, [id, role]);
-  console.log(id, "--- id");
+
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get(
@@ -61,7 +61,6 @@ function PcelarsPosts() {
           params: { userId: id },
         }
       );
-      console.log(response.data, "Data Response");
       if (response.data) {
         setProfileImage(response.data.imageLink);
       }
@@ -76,11 +75,11 @@ function PcelarsPosts() {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="honeycomb-loader">
-          <div className="honeycomb-cell"></div>
-          <div className="honeycomb-cell"></div>
-          <div className="honeycomb-cell"></div>
+      <div className="bp-loading-wrapper">
+        <div className="bp-honeycomb-loader">
+          <div className="bp-honeycomb-cell"></div>
+          <div className="bp-honeycomb-cell"></div>
+          <div className="bp-honeycomb-cell"></div>
         </div>
         <p>Loading beekeeper's profile...</p>
       </div>
@@ -89,8 +88,8 @@ function PcelarsPosts() {
 
   if (error) {
     return (
-      <div className="error-container">
-        <div className="error-icon">!</div>
+      <div className="bp-error-wrapper">
+        <div className="bp-error-icon">!</div>
         <h2>Something went wrong</h2>
         <p>{error}</p>
         <button onClick={() => window.location.reload()}>Try Again</button>
@@ -98,65 +97,68 @@ function PcelarsPosts() {
     );
   }
 
-  console.log(profileImage);
   return (
-    <div className="beekeeper-posts">
-      <div className="honeycomb-bg"></div>
+    <div className="bp-container">
+      <div className="bp-honeycomb-bg"></div>
 
-      <header className="beekeeper-header">
-        <div className="profile-container">
-          <div className="profile-image-wrapper">
-            <img src={profileImage} className="profile-image" />
+      <header className="bp-header">
+        <div className="bp-profile-container">
+          <div className="bp-image-wrapper">
+            <img
+              src={profileImage}
+              className="bp-profile-image"
+              alt="Beekeeper profile"
+            />
           </div>
 
-          <div className="profile-details">
+          <div className="bp-profile-details">
             <h1>{userInfo?.name || "Beekeeper"}</h1>
-            <div className="experience-badge">
+            <div className="bp-experience-badge">
               <span>{userInfo?.expirience || "Experienced"} Beekeeper</span>
             </div>
-            <p className="profile-description">
+            <p className="bp-profile-bio">
               {userInfo?.description || "No description available"}
             </p>
           </div>
         </div>
       </header>
 
-      <section className="posts-section">
-        <h2 className="section-title">
-          <span className="title-icon">🐝</span>
+      <section className="bp-posts-section">
+        <h2 className="bp-section-title">
+          <span className="bp-title-icon">🐝</span>
           Recent Posts
-          <span className="title-underline"></span>
+          <span className="bp-title-underline"></span>
         </h2>
 
         {data.length === 0 ? (
-          <div className="no-posts">
+          <div className="bp-no-posts">
             <p>This beekeeper hasn't shared any posts yet.</p>
-            <p className="hint">
+            <p className="bp-hint">
               Check back soon for updates on their beekeeping journey!
             </p>
           </div>
         ) : (
-          <div className="posts-grid">
+          <div className="bp-posts-grid">
             {data.map((post, index) => (
-              <article key={index} className="post-card">
-                <div className="post-image-container">
+              <article key={index} className="bp-post-card">
+                <div className="bp-post-img-container">
                   <img
                     src={post.url}
                     alt={post.title || `Post ${index + 1}`}
-                    className="post-image"
+                    className="bp-post-img"
                   />
-                  <div className="post-date">{post.date || "Recent"}</div>
+                  <div className="bp-post-date">{post.date || "Recent"}</div>
                 </div>
 
-                <div className="post-content">
-                  <h3 className="post-title">
+                <div className="bp-post-content">
+                  <h3 className="bp-post-title">
                     {post.title || `Post ${index + 1}`}
                   </h3>
-                  <p className="post-description">
+                  <p className="bp-post-desc">
                     {post.description || "No description available."}
                   </p>
-                  <div className="post-footer">
-                    <button className="read-more-btn">Read More</button>
+                  <div className="bp-post-footer">
+                    <button className="bp-read-more-btn">Read More</button>
                   </div>
                 </div>
               </article>
@@ -165,7 +167,7 @@ function PcelarsPosts() {
         )}
       </section>
 
-      <footer className="beekeeper-footer">
+      <footer className="bp-footer">
         <p>
           Follow this beekeeper's journey and discover the wonderful world of
           beekeeping!

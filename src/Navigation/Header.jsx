@@ -44,8 +44,8 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link to="/products" onClick={() => setIsMenuOpen(false)}>
-                Proizvodi
+              <Link to="/statistika" onClick={() => setIsMenuOpen(false)}>
+                Statistika
               </Link>
             </li>
             <li>

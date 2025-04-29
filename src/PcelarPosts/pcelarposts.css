@@ -377,7 +377,7 @@
 }
 
 .bp-like-icon {
-  font-size: 16px;
+  font-size: 18px; /* Slightly larger for the honey jar emoji */
   transition: transform 0.2s ease;
 }
 

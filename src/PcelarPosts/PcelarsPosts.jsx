@@ -254,7 +254,8 @@ function PcelarsPosts() {
                       post.title || `Post ${index + 1}`
                     }`}
                   >
-                    <span className="bp-like-icon">🐝</span>
+                    <span className="bp-like-icon">🍯</span>
+
                     <span className="bp-like-count">
                       {postLikes[post.id] || 0}
                     </span>

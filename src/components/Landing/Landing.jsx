@@ -96,7 +96,7 @@ function App() {
       </section>
 
       {/* Featured Products */}
-      <section className="featured-section">
+      {/* <section className="featured-section">
         <div className="container-landing">
           <div className="section-header">
             <h2>Istaknuti Proizvodi</h2>
@@ -124,7 +124,7 @@ function App() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Benefits Section */}
       <section className="benefits-section">

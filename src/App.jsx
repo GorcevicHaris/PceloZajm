@@ -45,7 +45,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/about" element={<About />} />
           <Route path="/" element={<LandingGuard />} />
-          <Route path="/hiveAdmin" element={<HiveForm />} />
+          <Route path="/hivebeekeeper" element={<HiveForm />} />
           <Route path="/hivesEditDelete" element={<Hives />} />
           <Route path="/userForm" element={<UserForm />} />
           <Route path="/users" element={<Users />} />

@@ -47,14 +47,14 @@ function HiveForm() {
 
   // Redirect if not admin or creator
   useEffect(() => {
-    if (role !== "admin" && role !== "creator") {
+    if (role !== "beekeeper" && role !== "creator") {
       console.log("Redirecting to /profile, role =", role);
       navigate("/profile");
     }
   }, [role, navigate]);
 
   // Render nothing if not admin or creator
-  if (role !== "admin" && role !== "creator") {
+  if (role !== "beekeeper" && role !== "creator") {
     console.log("Rendering null, role =", role);
     return null;
   }

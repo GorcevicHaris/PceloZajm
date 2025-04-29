@@ -9,6 +9,7 @@ const ImageUpload = () => {
   const [previewUrl, setPreviewUrl] = useState("");
   const [urls, setUrls] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [description, setDescription] = useState("");
   const { userId } = useContext(Context);
 
   const handleFileChange = (event) => {
@@ -36,6 +37,7 @@ const ImageUpload = () => {
     }
     getUrls();
   }, [userId]);
+  console.log(description, "");
 
   const compressImage = (file) => {
     return new Promise((resolve, reject) => {
@@ -92,7 +94,7 @@ const ImageUpload = () => {
       alert("Please select a file first.");
       return;
     }
-    console.log(isUploading, "da ili ne");
+
     try {
       setIsUploading(true);
       const compressedFile = await compressImage(file);
@@ -100,6 +102,7 @@ const ImageUpload = () => {
       const formData = new FormData();
       formData.append("file", compressedFile, file.name);
       formData.append("user_id", userId);
+      formData.append("description", description);
 
       const response = await axios.post(
         "http://localhost:4005/upload",
@@ -112,15 +115,38 @@ const ImageUpload = () => {
       );
 
       setUploadedImageUrl(response.data.url);
-      setUrls([...urls, { url: response.data.url }]);
+
+      // Update the gallery with the new image and description
+      setUrls([...urls, { url: response.data.url, description }]);
+
+      // Clear description field after successful upload
+      setDescription("");
+      setFile(null); // Clear the selected file
+      setPreviewUrl(""); // Clear the preview
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Failed to upload file.");
     } finally {
       setIsUploading(false);
     }
+    console.log(description < "in");
   };
+  console.log(description, "out");
 
+  function deleteImage(id) {
+    axios
+      .delete("http://localhost:4005/api/deleteImage", {
+        data: { id }, // Send the specific image ID
+      })
+      .then(() => {
+        // Remove the deleted image from the gallery
+        setUrls(urls.filter((image) => image.id !== id));
+      })
+      .catch((error) => {
+        console.error("Error deleting image:", error);
+        alert("Failed to delete image.");
+      });
+  }
   return (
     <div className="main-content">
       <div className="image-upload-container">
@@ -135,24 +161,32 @@ const ImageUpload = () => {
                 id="file-input"
                 accept="image/*"
               />
-              <label
-                style={{ cursor: "pointer" }}
-                htmlFor="file-input"
-                className="file-input-label"
-              >
+              <label htmlFor="file-input" className="file-input-label">
                 Choose File
               </label>
               {file && <span className="file-name">{file.name}</span>}
             </div>
-            {
-              <button
-                onClick={handleUpload}
-                className={`upload-button ${isUploading ? "uploading" : ""}`}
-                disabled={!file || isUploading}
-              >
-                {isUploading ? "Uploading..." : "Upload Image"}
-              </button>
-            }
+            <div className="description-container">
+              <label htmlFor="description" className="description-label">
+                Image Description
+              </label>
+              <textarea
+                id="description"
+                className="description-input"
+                placeholder="Enter a description for your image"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows="3"
+              />
+            </div>
+
+            <button
+              onClick={handleUpload}
+              className={`upload-button ${isUploading ? "uploading" : ""}`}
+              disabled={!file || isUploading}
+            >
+              {isUploading ? "Uploading..." : "Upload Image"}
+            </button>
           </div>
 
           {previewUrl && (
@@ -160,6 +194,11 @@ const ImageUpload = () => {
               <h2>Preview</h2>
               <div className="preview-container">
                 <img src={previewUrl} alt="Preview" className="preview-image" />
+                {description && (
+                  <div className="preview-description">
+                    <p>{description}</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -167,12 +206,19 @@ const ImageUpload = () => {
           {uploadedImageUrl && (
             <div className="uploaded-section">
               <h2>Uploaded Image</h2>
+
               <div className="uploaded-container">
                 <img
                   src={uploadedImageUrl}
                   alt="Uploaded"
                   className="uploaded-image"
                 />
+
+                {description && (
+                  <div className="uploaded-description">
+                    <p>{description}</p>
+                  </div>
+                )}
                 <a
                   href={uploadedImageUrl}
                   target="_blank"
@@ -191,8 +237,21 @@ const ImageUpload = () => {
             <h2>Image Gallery</h2>
             <div className="image-gallery">
               {urls.map((el, index) => (
-                <div key={index} className="gallery-item">
+                <div key={el.id || index} className="gallery-item">
+                  {" "}
+                  {/* Use el.id as key if available */}
+                  <button onClick={() => deleteImage(el.id)}>
+                    Delete
+                  </button>{" "}
+                  {/* Pass el.id */}
                   <img src={el.url} alt={`Uploaded ${index + 1}`} />
+                  {el.description && (
+                    <div className="gallery-item-description">
+                      <p>{el.description}</p>
+                      <p>Image ID: {el.id}</p>
+                      <p>User ID: {el.user_id}</p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

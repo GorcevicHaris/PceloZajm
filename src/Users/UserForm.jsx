@@ -18,11 +18,11 @@ function UserForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   useEffect(() => {
-    if (role !== "admin" && role !== "creator") {
+    if (role !== "beekeeper" && role !== "creator") {
       navigate("/profile");
     }
   }, []);
-  if (role !== "admin" && role !== "creator") {
+  if (role !== "beekeeper" && role !== "creator") {
     return null;
   }
   const handleSubmit = (e) => {

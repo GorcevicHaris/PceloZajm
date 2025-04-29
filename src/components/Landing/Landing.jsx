@@ -90,18 +90,6 @@ function App() {
           <div className="hero-icon"></div>
           <h1>Dobrodošli u Svijet Pčelarstva</h1>
           <p>Otkrijte najbolje domaće pčelare i njihove prirodne proizvode</p>
-          <div className="hero-search">
-            <div className="search-container">
-              <Search className="search-icon" />
-              <input
-                type="text"
-                placeholder="Pretraži pčelare..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input"
-              />
-            </div>
-          </div>
         </div>
         <div className="honeycomb-decoration left"></div>
         <div className="honeycomb-decoration right"></div>
@@ -189,6 +177,20 @@ function App() {
             <h2>Naši Pčelari</h2>
             <div className="section-divider">
               <span className="divider-bee">🐝</span>
+            </div>
+          </div>
+
+          {/* Search input moved here, right above the beekeepers listing */}
+          <div className="beekeepers-search">
+            <div className="search-container">
+              <Search className="search-icon" />
+              <input
+                type="text"
+                placeholder="Pretraži pčelare..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
             </div>
           </div>
 

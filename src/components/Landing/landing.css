@@ -20,7 +20,7 @@ body {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 8rem 2rem;
+  padding: 3rem 2rem;
   background-color: #f7e4b2;
   border-bottom: 5px solid rgba(244, 162, 97, 0.3);
 }
@@ -85,14 +85,12 @@ body {
   transform: rotate(15deg);
 }
 
-.hero-search {
-  margin-top: 2rem;
-}
-
+/* Search styling */
 .search-container {
   position: relative;
   max-width: 500px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .search-icon {
@@ -118,6 +116,18 @@ body {
   outline: none;
   box-shadow: 0 4px 12px rgba(244, 162, 97, 0.3);
   border-color: #e76f51;
+}
+
+/* Beekeepers Search specific styling */
+.beekeepers-search {
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .beekeepers-search {
+    margin-bottom: 2rem;
+  }
 }
 
 /* Section styling */

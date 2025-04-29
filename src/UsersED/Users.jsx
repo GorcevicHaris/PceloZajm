@@ -25,12 +25,12 @@ function Users() {
   }, []);
   console.log(role, "roleusers");
   useEffect(() => {
-    if (role !== "admin" && role !== "creator") {
+    if (role !== "beekeeper" && role !== "creator") {
       navigate("/profile");
     }
   }, []);
 
-  if (role !== "admin" && role !== "creator") {
+  if (role !== "beekeeper" && role !== "creator") {
     return null;
   }
 
@@ -108,7 +108,7 @@ function Users() {
               setSelectedUser({ ...selectedUser, role: e.target.value })
             }
           >
-            <option value="admin">Admin</option>
+            <option value="beekeeper">Admin</option>
             <option value="user">User</option>
           </select>
           <div className="btnEdCl">

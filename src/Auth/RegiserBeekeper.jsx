@@ -117,7 +117,7 @@ function RegisterAsBeekeper() {
             required
           >
             <option value="">Select a role</option>
-            <option value="admin">Admin</option>
+            <option value="beekeeper">Admin</option>
             <option value="user">User</option>
           </select>
         </div> */}

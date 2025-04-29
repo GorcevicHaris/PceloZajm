@@ -30,11 +30,11 @@ function Hives() {
   }, []);
 
   useEffect(() => {
-    if (role !== "admin" && role !== "creator") {
+    if (role !== "beekeeper" && role !== "creator") {
       navigate("/profile");
     }
   }, []);
-  if (role !== "admin" && role !== "creator") {
+  if (role !== "beekeeper" && role !== "creator") {
     return null;
   }
 

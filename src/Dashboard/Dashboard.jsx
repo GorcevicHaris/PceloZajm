@@ -238,20 +238,14 @@ const ImageUpload = () => {
             <div className="image-gallery">
               {urls.map((el, index) => (
                 <div key={el.id || index} className="gallery-item">
-                  {" "}
-                  {/* Use el.id as key if available */}
-                  <button onClick={() => deleteImage(el.id)}>
-                    Delete
-                  </button>{" "}
                   {/* Pass el.id */}
                   <img src={el.url} alt={`Uploaded ${index + 1}`} />
                   {el.description && (
                     <div className="gallery-item-description">
                       <p>{el.description}</p>
-                      <p>Image ID: {el.id}</p>
-                      <p>User ID: {el.user_id}</p>
                     </div>
                   )}
+                  <button onClick={() => deleteImage(el.id)}>Delete</button>
                 </div>
               ))}
             </div>

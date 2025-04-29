@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./pcelarposts.css";
 import { Context } from "../Context";
-import { useCookies } from "react-cookie";
 
 function PcelarsPosts() {
   const { id } = useParams();
@@ -13,22 +12,23 @@ function PcelarsPosts() {
   const [error, setError] = useState(null);
   const { role } = useContext(Context);
   const navigate = useNavigate();
-  const [profileImage, setProfileImage] = useState([]);
-  const [cookies, setCookie] = useCookies([
-    "token",
-    "likedPosts",
-    "likedUsers",
-  ]);
+  const [profileImage, setProfileImage] = useState("");
   const [postLikes, setPostLikes] = useState({});
   const [userLikes, setUserLikes] = useState(0);
+  // State to track liked posts and user in the current session
+  const [likedPostIds, setLikedPostIds] = useState([]);
+  const [likedUserId, setLikedUserId] = useState(null);
 
   useEffect(() => {
-    if (!id) {
+    console.log("Current ID from useParams:", id);
+    if (id === undefined || id === null || id === "") {
+      console.warn("No valid ID provided, redirecting to homepage");
       navigate("/");
     }
   }, [id, navigate]);
 
   useEffect(() => {
+    console.log("Current role from Context:", role);
     const fetchData = async () => {
       try {
         const [imagesResponse, userResponse] = await Promise.all([
@@ -84,8 +84,15 @@ function PcelarsPosts() {
   }, [id]);
 
   const sendLike = async (postId, currentLikes) => {
-    const likedPosts = cookies.likedPosts || [];
-    if (likedPosts.includes(postId)) {
+    console.log(
+      "Before like - postId:",
+      postId,
+      "currentLikes:",
+      currentLikes,
+      "likedPostIds:",
+      likedPostIds
+    );
+    if (likedPostIds.includes(postId.toString())) {
       alert("You have already liked this post!");
       return;
     }
@@ -97,16 +104,18 @@ function PcelarsPosts() {
     }));
 
     try {
-      const response = await axios.post("http://localhost:4005/api/sendLike", {
-        likes: newLikes,
-        id: postId,
-      });
+      const response = await axios.post(
+        "http://localhost:4005/api/sendLike",
+        {
+          likes: newLikes,
+          id: postId,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       console.log("Like sent successfully:", response.data);
-      const updatedLikedPosts = [...likedPosts, postId];
-      setCookie("likedPosts", updatedLikedPosts, {
-        path: "/",
-        maxAge: 31536000,
-      });
+      setLikedPostIds((prev) => [...prev, postId.toString()]);
     } catch (error) {
       console.error("Error sending like:", error.message, error.response?.data);
       setPostLikes((prevLikes) => ({
@@ -118,8 +127,15 @@ function PcelarsPosts() {
   };
 
   const userLike = async () => {
-    const likedUsers = cookies.likedUsers || [];
-    if (likedUsers.includes(id)) {
+    console.log(
+      "Before user like - userId:",
+      id,
+      "userLikes:",
+      userLikes,
+      "likedUserId:",
+      likedUserId
+    );
+    if (likedUserId === id.toString()) {
       alert("You have already liked this user!");
       return;
     }
@@ -128,16 +144,18 @@ function PcelarsPosts() {
     setUserLikes(newLikes);
 
     try {
-      const response = await axios.post("http://localhost:4005/api/userLike", {
-        likes: newLikes,
-        userId: id,
-      });
+      const response = await axios.post(
+        "http://localhost:4005/api/userLike",
+        {
+          likes: newLikes,
+          userId: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       console.log("User like sent successfully:", response.data);
-      const updatedLikedUsers = [...likedUsers, id];
-      setCookie("likedUsers", updatedLikedUsers, {
-        path: "/",
-        maxAge: 31536000,
-      });
+      setLikedUserId(id.toString());
     } catch (error) {
       console.error(
         "Error sending user like:",
@@ -181,7 +199,7 @@ function PcelarsPosts() {
         <div className="bp-profile-container">
           <div className="bp-image-wrapper">
             <img
-              src={profileImage}
+              src={profileImage || "https://via.placeholder.com/150"}
               className="bp-profile-image"
               alt="Beekeeper profile"
             />
@@ -192,7 +210,7 @@ function PcelarsPosts() {
             <button
               onClick={userLike}
               className="bp-user-like-btn"
-              disabled={cookies.likedUsers?.includes(id)}
+              disabled={likedUserId === id.toString()}
               aria-label={`Like ${userInfo?.name || "Beekeeper"}'s profile`}
             >
               <span className="bp-user-like-icon">
@@ -237,25 +255,22 @@ function PcelarsPosts() {
           </div>
         ) : (
           <div className="bp-posts-grid">
-            {data.map((post, index) => (
-              <article key={index} className="bp-post-card">
+            {data.map((post) => (
+              <article key={post.id} className="bp-post-card">
                 <div className="bp-post-img-container">
                   <img
                     src={post.url}
-                    alt={post.title || `Post ${index + 1}`}
+                    alt={post.title || `Post ${post.id}`}
                     className="bp-post-img"
                   />
                   <div className="bp-post-date">{post.date || "Recent"}</div>
                   <button
                     onClick={() => sendLike(post.id, postLikes[post.id] || 0)}
                     className="bp-like-btn"
-                    disabled={cookies.likedPosts?.includes(post.id)}
-                    aria-label={`Like post ${
-                      post.title || `Post ${index + 1}`
-                    }`}
+                    disabled={likedPostIds.includes(post.id.toString())}
+                    aria-label={`Like post ${post.title || `Post ${post.id}`}`}
                   >
                     <span className="bp-like-icon">🍯</span>
-
                     <span className="bp-like-count">
                       {postLikes[post.id] || 0}
                     </span>
@@ -264,7 +279,7 @@ function PcelarsPosts() {
 
                 <div className="bp-post-content">
                   <h3 className="bp-post-title">
-                    {post.title || `Post ${index + 1}`}
+                    {post.title || `Post ${post.id}`}
                   </h3>
                   <p className="bp-post-desc">
                     {post.description || "No description available."}

@@ -19,6 +19,7 @@ import PcelarsPosts from "./PcelarPosts/PcelarsPosts";
 import Contact from "./Pages/Home/Contact";
 import About from "./Pages/About";
 import RegisterAsBeekeper from "./Auth/RegiserBeekeper";
+import Statistics from "./components/Statistics";
 const LandingGuard = () => {
   const { userId } = useContext(Context);
   return userId ? <Navigate to="/dashboard" replace /> : <Landing />;
@@ -47,6 +48,7 @@ function App() {
           <Route path="/" element={<LandingGuard />} />
           <Route path="/hivebeekeeper" element={<HiveForm />} />
           <Route path="/hivesEditDelete" element={<Hives />} />
+          <Route path="/statistika" element={<Statistics />} />
           <Route path="/userForm" element={<UserForm />} />
           <Route path="/users" element={<Users />} />
           <Route path="/login" element={<Login />} />

@@ -344,6 +344,43 @@
   font-size: 1rem;
   line-height: 1.6;
 }
+/* Like button styles */
+.bp-like-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bp-like-btn:hover:not(:disabled) {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.bp-like-btn:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.bp-like-icon {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.bp-like-btn:hover:not(:disabled) .bp-like-icon {
+  transform: scale(1.2);
+}
+
+.bp-like-count {
+  font-weight: 500;
+}
 
 /* Responsive Design */
 @media (min-width: 576px) {

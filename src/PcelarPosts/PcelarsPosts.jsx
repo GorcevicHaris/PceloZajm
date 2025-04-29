@@ -14,16 +14,15 @@ function PcelarsPosts() {
   const { role } = useContext(Context);
   const navigate = useNavigate();
   const [profileImage, setProfileImage] = useState([]);
-  const [cookies] = useCookies(["token"]);
-
-  // Redirect if no ID
+  const [cookies, setCookie] = useCookies(["token", "likedPosts"]); // Added likedPosts cookie
+  const [postLikes, setPostLikes] = useState({});
+  const [userLikes, setUserLikes] = useState({});
   useEffect(() => {
     if (!id) {
       navigate("/");
     }
   }, [id, navigate]);
 
-  // Fetch posts and user info
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,6 +37,14 @@ function PcelarsPosts() {
 
         setData(imagesResponse.data);
         setUserInfo(userResponse.data);
+
+        // Initialize likes state from fetched data
+        const initialLikes = {};
+        imagesResponse.data.forEach((post) => {
+          initialLikes[post.id] = post.likes || 0;
+        });
+        setPostLikes(initialLikes);
+        setUserLikes(initialLikes);
         setLoading(false);
       } catch (error) {
         console.error(
@@ -72,6 +79,88 @@ function PcelarsPosts() {
   useEffect(() => {
     fetchProfileImage();
   }, [id]);
+
+  const sendLike = async (postId, currentLikes) => {
+    // Check if the post has already been liked
+    const likedPosts = cookies.likedPosts || [];
+    if (likedPosts.includes(postId)) {
+      alert("You have already liked this post!");
+      return;
+    }
+
+    const newLikes = currentLikes + 1;
+
+    // Optimistically update the UI
+    setPostLikes((prevLikes) => ({
+      ...prevLikes,
+      [postId]: newLikes,
+    }));
+
+    try {
+      // Send the updated likes to the backend
+      const response = await axios.post("http://localhost:4005/api/sendLike", {
+        likes: newLikes,
+        id: postId,
+      });
+      console.log("Like sent successfully:", response.data);
+
+      // Update the likedPosts cookie
+      const updatedLikedPosts = [...likedPosts, postId];
+      setCookie("likedPosts", updatedLikedPosts, {
+        path: "/",
+        maxAge: 31536000,
+      }); // 1 year expiry
+    } catch (error) {
+      console.error("Error sending like:", error.message, error.response?.data);
+      // Revert the optimistic update if the request fails
+      setPostLikes((prevLikes) => ({
+        ...prevLikes,
+        [postId]: currentLikes,
+      }));
+      alert("Failed to send like. Please try again.");
+    }
+  };
+
+  const userLike = async (postId, currentLikes) => {
+    // Check if the post has already been liked
+    const likedPosts = cookies.likedPosts || [];
+    if (likedPosts.includes(postId)) {
+      alert("You have already liked this post!");
+      return;
+    }
+
+    const newLikes = currentLikes + 1;
+
+    // Optimistically update the UI
+    setUserLikes((prevLikes) => ({
+      ...prevLikes,
+      [postId]: newLikes,
+    }));
+
+    try {
+      // Send the updated likes to the backend
+      const response = await axios.post("http://localhost:4005/api/sendLike", {
+        likes: newLikes,
+        id: postId,
+      });
+      console.log("Like sent successfully:", response.data);
+
+      // Update the likedPosts cookie
+      const updatedLikedPosts = [...likedPosts, postId];
+      setCookie("likedPosts", updatedLikedPosts, {
+        path: "/",
+        maxAge: 31536000,
+      }); // 1 year expiry
+    } catch (error) {
+      console.error("Error sending like:", error.message, error.response?.data);
+      // Revert the optimistic update if the request fails
+      setUserLikes((prevLikes) => ({
+        ...prevLikes,
+        [postId]: currentLikes,
+      }));
+      alert("Failed to send like. Please try again.");
+    }
+  };
 
   if (loading) {
     return (
@@ -122,7 +211,7 @@ function PcelarsPosts() {
           </div>
         </div>
       </header>
-      {/*  */}
+
       <section className="bp-posts-section">
         <h2 className="bp-section-title">
           <span className="bp-title-icon">🐝</span>
@@ -158,7 +247,13 @@ function PcelarsPosts() {
                     {post.description || "No description available."}
                   </p>
                   <div className="bp-post-footer">
-                    <button className="bp-read-more-btn">Read More</button>
+                    <button
+                      onClick={() => sendLike(post.id, postLikes[post.id] || 0)}
+                      className="bp-read-more-btn"
+                      disabled={cookies.likedPosts?.includes(post.id)} // Disable if already liked
+                    >
+                      Likes: {postLikes[post.id] || 0}
+                    </button>
                   </div>
                 </div>
               </article>
